@@ -2,11 +2,13 @@ package tracker.controllers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import tracker.model.Point;
+import tracker.service.TrackerService;
 
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -24,16 +26,16 @@ public class PointsController {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(PointsController.class);
 
-    private Set<Point> points = new LinkedHashSet<>();
+    @Autowired
+    private TrackerService trackerService;
 
     @RequestMapping(value = "/points", method = RequestMethod.GET)
-    public Set<Point> getPoints() {
-        return points;
+    public List<Point> getPoints() {
+        return trackerService.allPoints();
     }
 
     @RequestMapping(value = "/points", method = RequestMethod.POST)
     public void addPoints(@RequestBody List<Point> points) {
         LOGGER.debug("Points: " + points);
-        this.points.addAll(points);
     }
 }

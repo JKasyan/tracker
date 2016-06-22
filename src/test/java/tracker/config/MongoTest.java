@@ -4,8 +4,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import tracker.model.Point;
@@ -28,5 +26,14 @@ public class MongoTest {
     public void test() {
         List<Point> points = operations.findAll(Point.class);
         System.out.println(points);
+    }
+
+    @Test
+    public void save() {
+        Point point = new Point();
+        point.setLat(50.0);
+        point.setLng(30.0);
+        operations.save(point);
+        System.out.println(point);
     }
 }
