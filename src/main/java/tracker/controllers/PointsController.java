@@ -1,11 +1,16 @@
 package tracker.controllers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import tracker.model.Point;
 
 import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -17,19 +22,18 @@ import java.util.Set;
 @RequestMapping(value = "api/")
 public class PointsController {
 
-    private Set<Point> points;
+    public static final Logger LOGGER = LoggerFactory.getLogger(PointsController.class);
 
-    {
-        points = new HashSet<>();
-        points.add(new Point(50.5328238,30.6105336));
-        points.add(new Point(50.5327061,30.6128523));
-        points.add(new Point(50.5324589,30.6143453));
-        points.add(new Point(50.5320116,30.6151941));
-        points.add(new Point(50.5311532,30.6162353));
-    }
+    private Set<Point> points = new LinkedHashSet<>();
 
     @RequestMapping(value = "/points", method = RequestMethod.GET)
     public Set<Point> getPoints() {
         return points;
+    }
+
+    @RequestMapping(value = "/points", method = RequestMethod.POST)
+    public void addPoints(@RequestBody List<Point> points) {
+        LOGGER.debug("Points: " + points);
+        this.points.addAll(points);
     }
 }

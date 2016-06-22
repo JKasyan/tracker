@@ -4,17 +4,19 @@ import com.fasterxml.jackson.annotation.JsonView;
 
 /**
  * Created on 17.06.2016
- *
  * @author Kasyan Evgen
  */
 public class Point {
+
     @JsonView
-    private final double lat, lng;
+    private double lat, lng;
 
     public Point(double lat, double lng) {
         this.lat = lat;
         this.lng = lng;
     }
+
+    public Point() {}
 
     public double getLat() {
         return lat;
@@ -22,6 +24,14 @@ public class Point {
 
     public double getLng() {
         return lng;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public void setLng(double lng) {
+        this.lng = lng;
     }
 
     @Override
@@ -46,5 +56,13 @@ public class Point {
         temp = Double.doubleToLongBits(lng);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Point{" +
+                "lat=" + lat +
+                ", lng=" + lng +
+                '}';
     }
 }
