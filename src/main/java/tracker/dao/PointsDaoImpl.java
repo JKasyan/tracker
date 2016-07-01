@@ -21,4 +21,9 @@ public class PointsDaoImpl implements PointsDao {
     public List<Point> findAll() {
         return operations.findAll(Point.class);
     }
+
+    @Override
+    public void save(Point point) {
+        operations.save(point);
+    }
 }

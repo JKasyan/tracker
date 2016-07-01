@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.Instant;
+
 /**
  * Created on 17.06.2016
  * @author Kasyan Evgen
@@ -16,10 +18,14 @@ public class Point {
 
     @JsonView
     private double lat, lng;
+    private Instant time;
+    private String devId;
 
-    public Point(double lat, double lng) {
+    public Point(String devId, double lat, double lng, Instant time) {
         this.lat = lat;
         this.lng = lng;
+        this.time = time;
+        this.devId = devId;
     }
 
     public Point() {}
@@ -48,12 +54,22 @@ public class Point {
         this.id = id;
     }
 
+    public Instant getTime() {
+        return time;
+    }
+
+    public String getDevId() {
+        return devId;
+    }
+
     @Override
     public String toString() {
         return "Point{" +
                 "id='" + id + '\'' +
                 ", lat=" + lat +
                 ", lng=" + lng +
+                ", time=" + time +
+                ", devId='" + devId + '\'' +
                 '}';
     }
 }

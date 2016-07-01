@@ -24,7 +24,7 @@ import java.util.Set;
 @RequestMapping(value = "api/")
 public class PointsController {
 
-    public static final Logger LOGGER = LoggerFactory.getLogger(PointsController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PointsController.class);
 
     @Autowired
     private TrackerService trackerService;

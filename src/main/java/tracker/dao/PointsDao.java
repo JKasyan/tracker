@@ -12,4 +12,5 @@ import java.util.List;
 public interface PointsDao {
 
     List<Point> findAll();
+    void save(Point point);
 }

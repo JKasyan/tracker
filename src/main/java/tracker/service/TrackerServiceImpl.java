@@ -22,4 +22,9 @@ public class TrackerServiceImpl implements TrackerService {
     public List<Point> allPoints() {
         return pointsDao.findAll();
     }
+
+    @Override
+    public void savePoint(Point point) {
+        pointsDao.save(point);
+    }
 }
