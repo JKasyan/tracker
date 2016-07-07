@@ -27,4 +27,14 @@ public class TrackerServiceImpl implements TrackerService {
     public void savePoint(Point point) {
         pointsDao.save(point);
     }
+
+    @Override
+    public List<Point> getPoints(long from, long to) {
+        return pointsDao.find(from, to);
+    }
+
+    @Override
+    public List<Point> allPoints(int lastPoints) {
+        return pointsDao.getLastPoints(lastPoints);
+    }
 }

@@ -4,10 +4,16 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import tracker.dao.PointsDao;
+import tracker.dao.PointsDaoImpl;
 import tracker.model.Point;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -35,5 +41,22 @@ public class MongoTest {
         point.setLng(30.0);
         operations.save(point);
         System.out.println(point);
+    }
+
+    @Test
+    public void findLast() {
+        Query query = new Query();
+        query.limit(10);
+        List<Point> lastPoints = operations.find(query, Point.class);
+        System.out.println(lastPoints);
+        lastPoints.stream().map(d -> Instant.ofEpochSecond(d.getTimestamp())).forEach(System.out::println);
+    }
+
+    @Test
+    public void countTest() {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("lng").is(0L));
+        List<Point> points = operations.find(query, Point.class);
+        System.out.println(points);
     }
 }

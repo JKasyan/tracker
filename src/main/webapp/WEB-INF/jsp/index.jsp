@@ -66,6 +66,35 @@
         });
     }
     //
+    function getAndBuildByDate(from, to) {
+        var unixTimeFrom = from.getTime();
+        var unixTImeTo = to.getTime();
+        var url = "api/points/from=" + unixTimeFrom + "/to=" + unixTImeTo;
+        console.log("url: ", url);
+        $.ajax({
+            type: "GET",
+            url : url,
+            timeout : 100000,
+            success: function(data){
+                console.log(data);
+                buildPolyline(data);
+            }
+        });
+    };
+    //
+    function lastPoints(quantity) {
+        var url = "api/points/quantity=" + quantity;
+        $.ajax({
+            type: "GET",
+            url : url,
+            timeout : 100000,
+            success: function(data){
+                console.log(data);
+                buildPolyline(data);
+            }
+        });
+    }
+    //
     function buildPolyline(points) {
         var path = poly.getPath();
         if(points){

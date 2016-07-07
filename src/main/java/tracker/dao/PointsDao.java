@@ -13,4 +13,8 @@ public interface PointsDao {
 
     List<Point> findAll();
     void save(Point point);
+
+    List<Point> find(long from, long to);
+
+    List<Point> getLastPoints(int lastPoints);
 }

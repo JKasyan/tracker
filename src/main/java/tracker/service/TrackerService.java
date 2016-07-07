@@ -12,5 +12,7 @@ import java.util.List;
 public interface TrackerService {
 
     List<Point> allPoints();
+    List<Point> getPoints(long from, long to);
+    List<Point> allPoints(int lastPoints);
     void savePoint(Point point);
 }

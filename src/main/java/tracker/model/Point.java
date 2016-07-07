@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.Instant;
-
 /**
  * Created on 17.06.2016
  * @author Kasyan Evgen
@@ -18,13 +16,13 @@ public class Point {
 
     @JsonView
     private double lat, lng;
-    private Instant time;
+    private long timestamp;
     private String devId;
 
-    public Point(String devId, double lat, double lng, Instant time) {
+    public Point(String devId, double lat, double lng, long timestamp) {
         this.lat = lat;
         this.lng = lng;
-        this.time = time;
+        this.timestamp = timestamp;
         this.devId = devId;
     }
 
@@ -54,8 +52,8 @@ public class Point {
         this.id = id;
     }
 
-    public Instant getTime() {
-        return time;
+    public long getTimestamp() {
+        return timestamp;
     }
 
     public String getDevId() {
@@ -68,7 +66,7 @@ public class Point {
                 "id='" + id + '\'' +
                 ", lat=" + lat +
                 ", lng=" + lng +
-                ", time=" + time +
+                ", timestamp=" + timestamp +
                 ", devId='" + devId + '\'' +
                 '}';
     }
