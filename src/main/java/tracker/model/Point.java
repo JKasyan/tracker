@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDateTime;
+import java.util.Date;
+
 /**
  * Created on 17.06.2016
  * @author Kasyan Evgen
@@ -18,6 +21,7 @@ public class Point {
     private double lat, lng;
     private long timestamp;
     private String devId;
+    private Date time;
 
     public Point(String devId, double lat, double lng, long timestamp) {
         this.lat = lat;
@@ -58,6 +62,14 @@ public class Point {
 
     public String getDevId() {
         return devId;
+    }
+
+    public void setTime(Date time) {
+        this.time = time;
+    }
+
+    public Date getTime() {
+        return time;
     }
 
     @Override

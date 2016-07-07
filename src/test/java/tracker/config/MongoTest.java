@@ -8,12 +8,9 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import tracker.dao.PointsDao;
-import tracker.dao.PointsDaoImpl;
 import tracker.model.Point;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -32,15 +29,6 @@ public class MongoTest {
     public void test() {
         List<Point> points = operations.findAll(Point.class);
         System.out.println(points);
-    }
-
-    @Test
-    public void save() {
-        Point point = new Point();
-        point.setLat(50.0);
-        point.setLng(30.0);
-        operations.save(point);
-        System.out.println(point);
     }
 
     @Test

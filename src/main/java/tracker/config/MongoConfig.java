@@ -1,7 +1,5 @@
 package tracker.config;
 
-import com.mongodb.Mongo;
-import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

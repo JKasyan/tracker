@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 import tracker.model.Point;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -35,7 +36,7 @@ public class PointsDaoImpl implements PointsDao {
     @Override
     public List<Point> find(long from, long to) {
         Query query = new Query();
-        query.addCriteria(Criteria.where("timestamp").gt(to / 1000).lt(from / 1000));
+        query.addCriteria(Criteria.where("timestamp").gt(from).lt(to));
         List<Point> points = operations.find(query, Point.class);
         LOGGER.debug("Points: " + points);
         return points;
