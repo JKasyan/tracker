@@ -48,3 +48,158 @@ function animateCircle(line) {
         line.set('icons', icons);
     }, 100);
 }
+
+function buildMultiplePolyline(points) {
+    _clearMap();
+    console.log('Initial size=', points.length);
+    if(!points) {
+        return;
+    }
+    var polylineSize = 0;
+    for(var i = 1; i < points.length;i ++) {
+        polylineSize++;
+        //
+        var timeDifference = points[i].timestamp - points[i-1].timestamp;
+        if(timeDifference > 15 * 60) {
+            console.log('Break! Length of polyline: ', polylineSize, ', time difference=', timeDifference);
+            addPolylineWithMarkersAndInfoWindows(points.slice(i - polylineSize, i));
+            polylineSize = 0;
+        }
+    }
+    /**
+     * When only one polyline
+     */
+    if(points && polylineHolder.length == 0) {
+        console.log('Only one polyline');
+        addPolylineWithMarkersAndInfoWindows(points.slice(i - polylineSize, i));
+    }
+    var latMax = _highestPoint(points);
+    var latMin = _lowestPoint(points);
+    var lngMin  =_leftPoint(points);
+    var lngMax  =_rightPoint(points);
+    //
+    var centerLat = (latMax + latMin) * 0.5;
+    var centerLng = (lngMin + lngMax) * 0.5;
+    var center = new google.maps.LatLng(centerLat, centerLng);
+    map.setCenter(center);
+    map.fitBounds(new google.maps.LatLngBounds(
+        new google.maps.LatLng(latMin, lngMin),
+        new google.maps.LatLng(latMax, lngMax)
+    ));
+}
+
+
+function addPolylineWithMarkersAndInfoWindows(points) {
+    var polyline = new google.maps.Polyline({
+        path: points,
+        geodesic: true,
+        strokeColor: '#FF0000',
+        strokeOpacity: 1.0,
+        strokeWeight: 3
+    });
+    polylineHolder.push(polyline);
+    //
+    const firstMarker = new google.maps.Marker({
+        position:points[0],
+        animation:google.maps.Animation.DROP,
+        map: map
+    });
+    const lastMarker = new google.maps.Marker({
+        position:points[points.length - 1],
+        animation:google.maps.Animation.DROP,
+        map: map
+    });
+    //
+    const infoWindowStart = new google.maps.InfoWindow({
+        content: infoWindow(points[0].timestamp, 'Start')
+    });
+    firstMarker.addListener('click', function () {
+        infoWindowStart.open(map, firstMarker);
+    });
+    const infoWindowFinish = new google.maps.InfoWindow({
+        content: infoWindow(points[points.length - 1].timestamp, 'Finish')
+    });
+    lastMarker.addListener('click', function () {
+        infoWindowFinish.open(map, lastMarker);
+    });
+    //
+    localWindows.push(infoWindowStart);
+    localWindows.push(infoWindowFinish);
+    //
+    markers.push(firstMarker);
+    markers.push(lastMarker);
+    //
+    polyline.setMap(map);
+}
+
+
+function _clearMap() {
+    if(polylineHolder.length != 0) {
+        polylineHolder.forEach(function (x) {
+            x.setMap(null);
+        });
+        polylineHolder = [];
+    }
+    if(markers.length != 0) {
+        markers.forEach(function (x) {
+            x.setMap(null);
+        });
+        markers = [];
+        localWindows = [];
+    }
+}
+
+
+function _highestPoint(points) {
+    var max = points[0].lat;
+    points.forEach(function(x){
+        if(x.lat > max) max = x.lat;
+    });
+    return max;
+}
+
+
+function _lowestPoint(points) {
+    var min = points[0].lat;
+    points.forEach(function(x){
+        if(x.lat < min) min = x.lat;
+    });
+    return min;
+}
+
+
+function _leftPoint(points) {
+    var l = points[0].lng;
+    points.forEach(function(x){
+        if(x.lng < l) l = x.lng;
+    });
+    return l;
+}
+
+
+function _rightPoint(points) {
+    var r = points[0].lng;
+    points.forEach(function(x) {
+        if(x.lng > r) r = x.lng;
+    });
+    return r;
+}
+
+function infoWindow(timestamp, title) {
+    var date = new Date(timestamp * 1000);
+    return '<div>' +
+            '<h3 style="text-align: center">' + title + '</h3>' +
+        '<span>Date: ' + date + '</span>' +
+        '</div>'
+}
+
+
+function addLatLng(event) {
+    var path = poly.getPath();
+    path.push(event.latLng);
+    var marker = new google.maps.Marker({
+        position: event.latLng,
+        title: '#' + path.getLength(),
+        map: map
+    });
+}

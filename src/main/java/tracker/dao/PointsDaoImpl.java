@@ -3,6 +3,7 @@ package tracker.dao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -37,6 +38,7 @@ public class PointsDaoImpl implements PointsDao {
     public List<Point> find(long from, long to) {
         Query query = new Query();
         query.addCriteria(Criteria.where("timestamp").gt(from).lt(to));
+        query.with(new Sort(Sort.Direction.ASC, "timestamp"));
         List<Point> points = operations.find(query, Point.class);
         LOGGER.debug("Points: " + points);
         return points;

@@ -20,7 +20,10 @@
             height: 100%;
         }
     </style>
+    <link rel="stylesheet" href="resources/css/bootstrap/bootstrap.css">
+    <link rel="stylesheet" href="resources/css/sidebar-wrapper.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="resources/js/bootstrap/bootstrap.js" type="text/javascript"></script>
     <script src="resources/js/maps.js"></script>
 </head>
 <body>
@@ -28,6 +31,9 @@
 <script>
     var poly;
     var p;
+    var markers = [];
+    var localWindows = [];
+    var polylineHolder = [];
     jQuery(document).ready(function($) {
 
     });
@@ -44,35 +50,12 @@
             strokeWeight: 3
         });
         poly.setMap(map);
-        map.addListener('click', addLatLng);
     }
-    //
-    function addLatLng(event) {
-        var path = poly.getPath();
-        path.push(event.latLng);
-        var marker = new google.maps.Marker({
-            position: event.latLng,
-            title: '#' + path.getLength(),
-            map: map
-        });
-    }
-    //
-    var getPoints = function () {
-        $.ajax({
-            type: "GET",
-            url : "api/points",
-            timeout : 100000,
-            success: function(data){
-                console.log(data);
-                buildPolyline(data);
-            }
-        });
-    };
     //
     function getAndBuildByDate(from, to) {
         var unixTimeFrom = from.getTime() / 1000;
-        var unixTImeTo = to.getTime() / 1000;
-        var url = "api/points/from=" + unixTimeFrom + "/to=" + unixTImeTo;
+        var unixTimeTo = to.getTime() / 1000;
+        var url = "api/points/from=" + unixTimeFrom + "/to=" + unixTimeTo;
         console.log("url: ", url);
         $.ajax({
             type: "GET",
@@ -80,7 +63,7 @@
             timeout : 100000,
             success: function(data){
                 console.log(data);
-                buildPolyline(data);
+                buildMultiplePolyline(data);
             }
         });
     };
@@ -102,7 +85,6 @@
         var lineSymbol = {
             path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
         };
-        p = points;//Testing
         poly.setMap(null);
         poly = new google.maps.Polyline({
             geodesic: true,
@@ -141,55 +123,10 @@
         animateCircle(poly);
     }
     //
-    function sendPoints() {
-        var points = [];
-        poly.getPath().j.forEach(function(x){
-            points.push({lat:x.lat(), lng:x.lng()});
-        });
-        $.ajax({
-            type: "POST",
-            dataType: "json",
-            contentType : "application/json",
-            url : "api/points",
-            data: JSON.stringify(points)
-        })
-    };
-    //
     function erasePath(){
         poly.setMap(null);
     }
-    //
-    function _highestPoint(points) {
-        var max = points[0].lat;
-        points.forEach(function(x){
-            if(x.lat > max) max = x.lat;
-        });
-        return max;
-    }
-    //
-    function _lowestPoint(points) {
-        var min = points[0].lat;
-        points.forEach(function(x){
-            if(x.lat < min) min = x.lat;
-        });
-        return min;
-    }
-    //
-    function _leftPoint(points) {
-        var l = points[0].lng;
-        points.forEach(function(x){
-            if(x.lng < l) l = x.lng;
-        });
-        return l;
-    }
-    //
-    function _rightPoint(points) {
-        var r = points[0].lng;
-        points.forEach(function(x) {
-            if(x.lng > r) r = x.lng;
-        });
-        return r;
-    }
+
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0ZoCNEDPN29SW8f2D8jCmQBAx0nBgB-c&callback=initMap"
         async defer></script>
