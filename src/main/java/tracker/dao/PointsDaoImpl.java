@@ -47,6 +47,7 @@ public class PointsDaoImpl implements PointsDao {
     @Override
     public List<Point> getLastPoints(int lastPoints) {
         Query query = new Query();
+        query.with(new Sort(Sort.Direction.DESC, "timestamp"));
         query.limit(lastPoints);
         return operations.find(query, Point.class);
     }

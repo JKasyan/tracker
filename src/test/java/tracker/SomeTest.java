@@ -2,8 +2,7 @@ package tracker;
 
 import org.junit.Test;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created on 22.06.2016
@@ -14,11 +13,27 @@ public class SomeTest {
 
     @Test
     public void linkedHashSetTest(){
-        Set<Integer> set = new LinkedHashSet<>();
-        set.add(1);
-        set.add(2);
-        set.add(3);
-        set.add(1);
-        System.out.println(set);
+        List<Integer> list = new ArrayList<>();
+        changeList(list);
+        System.out.println(list);
+    }
+
+    private void changeString(String s) {
+        s = "Mod value";
+    }
+
+    private void changeList(List<Integer> list) {
+        //list = new ArrayList<>();
+        list.add(2);
+    }
+
+    @Test
+    public void arrayTest(){
+        Integer[][] ar = new Integer[10][5];
+        int a  = (int)100L/3600;
+        //
+        Map<Integer, String> map = new HashMap<>();
+        String s = map.put(1, "One");
+        System.out.println(s);
     }
 }

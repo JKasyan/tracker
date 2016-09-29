@@ -35,12 +35,13 @@
     var localWindows = [];
     var polylineHolder = [];
     jQuery(document).ready(function($) {
-
+        lastPoint(initMap);
     });
     //
-    function initMap(){
+    function initMap(lastPoint){
+        console.log(lastPoint.lat,', ', lastPoint.lng);
         map = new google.maps.Map(document.getElementById('map'), {
-            center: {lat: 50.5151189, lng: 30.6098523},
+            center: {lat: lastPoint.lat, lng: lastPoint.lng},
             zoom: 14
         });
         poly = new google.maps.Polyline({
@@ -68,15 +69,14 @@
         });
     };
     //
-    function lastPoints(quantity) {
-        var url = "api/points/quantity=" + quantity;
+    function lastPoint(callback) {
+        var url = "api/points/quantity=1";
         $.ajax({
             type: "GET",
             url : url,
             timeout : 100000,
             success: function(data){
-                console.log(data);
-                buildPolyline(data);
+                callback.call(null, data[0]);
             }
         });
     }
@@ -128,7 +128,7 @@
     }
 
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0ZoCNEDPN29SW8f2D8jCmQBAx0nBgB-c&callback=initMap"
-        async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0ZoCNEDPN29SW8f2D8jCmQBAx0nBgB-c&"></script>
+
 </body>
 </html>
