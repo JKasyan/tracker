@@ -55,23 +55,29 @@ function buildMultiplePolyline(points) {
     if(!points) {
         return;
     }
+    var testCounter = 0;
     var polylineSize = 0;
-    for(var i = 1; i < points.length;i ++) {
+    for(var i = 1; i < points.length;i++) {
         polylineSize++;
         //
         var timeDifference = points[i].timestamp - points[i-1].timestamp;
         if(timeDifference > 15 * 60) {
             console.log('Break! Length of polyline: ', polylineSize, ', time difference=', timeDifference);
             addPolylineWithMarkersAndInfoWindows(points.slice(i - polylineSize, i));
+            testCounter += polylineSize;
             polylineSize = 0;
         }
     }
-    /**
-     * When only one polyline
-     */
-    if(points && polylineHolder.length == 0) {
+    /*if(!polylineSize || polylineHolder.length == 0) {
         console.log('Only one polyline');
         addPolylineWithMarkersAndInfoWindows(points.slice(i - polylineSize, i));
+    }*/
+    if(polylineSize == (points.length - 1)) {
+        console.log('Only one polyline');
+        addPolylineWithMarkersAndInfoWindows(points);
+    } else {
+        console.log('Tail');
+        addPolylineWithMarkersAndInfoWindows(points.slice(points.length - polylineSize, points.length - 1));
     }
     var latMax = _highestPoint(points);
     var latMin = _lowestPoint(points);
@@ -93,7 +99,7 @@ function addPolylineWithMarkersAndInfoWindows(points) {
     var polyline = new google.maps.Polyline({
         path: points,
         geodesic: true,
-        strokeColor: '#FF0000',
+        strokeColor: randomColor(),
         strokeOpacity: 1.0,
         strokeWeight: 3
     });
@@ -111,13 +117,13 @@ function addPolylineWithMarkersAndInfoWindows(points) {
     });
     //
     const infoWindowStart = new google.maps.InfoWindow({
-        content: infoWindow(points[0].timestamp, 'Start')
+        content: infoWindow(points[0].timestamp, 'Start', points)
     });
     firstMarker.addListener('click', function () {
         infoWindowStart.open(map, firstMarker);
     });
     const infoWindowFinish = new google.maps.InfoWindow({
-        content: infoWindow(points[points.length - 1].timestamp, 'Finish')
+        content: infoWindow(points[points.length - 1].timestamp, 'Finish', points)
     });
     lastMarker.addListener('click', function () {
         infoWindowFinish.open(map, lastMarker);
@@ -185,11 +191,13 @@ function _rightPoint(points) {
     return r;
 }
 
-function infoWindow(timestamp, title) {
+function infoWindow(timestamp, title, points) {
     var date = new Date(timestamp * 1000);
+    var d = distance(points) | 0;
     return '<div>' +
             '<h3 style="text-align: center">' + title + '</h3>' +
-        '<span>Date: ' + date + '</span>' +
+            '<span>Date: ' + date + '</span><br/>' +
+            '<span>Distance: ' + d + ' meters</span>' +
         '</div>'
 }
 
@@ -202,4 +210,16 @@ function addLatLng(event) {
         title: '#' + path.getLength(),
         map: map
     });
+}
+
+function randomColor() {
+    return '#' + ((1<<24) * Math.random() | 0).toString(16)
+}
+
+function distance(points) {
+    var dist = 0;
+    for(var i = 1;i<points.length;i++) {
+        dist += getDistance(points[i-1], points[i]);
+    }
+    return dist;
 }

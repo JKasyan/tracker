@@ -25,6 +25,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="resources/js/bootstrap/bootstrap.js" type="text/javascript"></script>
     <script src="resources/js/maps.js"></script>
+    <script href="resources/js/socket.js"></script>
 </head>
 <body>
 <div id="map"></div>
@@ -129,6 +130,18 @@
 
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0ZoCNEDPN29SW8f2D8jCmQBAx0nBgB-c&"></script>
-
+<%--<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>--%>
+<script src="https://cdn.socket.io/socket.io-1.0.0.js"></script>
+<script>
+    //https://obscure-thicket-55734.herokuapp.com
+    var socket = io.connect('http://localhost:8080');
+    //
+    socket.on('connect', function() {
+        console.log('connect');
+        socket.emit('subscribeOnVehicle', 100);
+        //
+        socket.on('msg', console.log(msg));
+    });
+</script>
 </body>
 </html>
