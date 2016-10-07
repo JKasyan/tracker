@@ -13,19 +13,16 @@ import javax.servlet.http.HttpServletResponse;
  * @author Kasyan Evgen
  */
 @Controller
-@CrossOrigin(origins = "",
-        allowedHeaders = {"",
-                "Access-Control-Allow-Credentials",
-                "Access-Control-Request-Headers",
-                "Access-Control-Allow-Methods"})
 public class IndexController {
 
     //Access-Control-Allow-Origin
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(HttpServletResponse res) {
-        res.setHeader("Access-Control-Allow-Origin", "http://localhost:8080");
-        res.setHeader("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
-        res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, Content-Length, X-Requested-With");
         return "index";
+    }
+
+    @RequestMapping(value = "/page", method = RequestMethod.GET)
+    public String page(HttpServletResponse res) {
+        return "page";
     }
 }
