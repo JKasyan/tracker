@@ -136,7 +136,7 @@
 <script src="https://cdn.socket.io/socket.io-1.0.0.js"></script>
 <script>
     //https://obscure-thicket-55734.herokuapp.com
-    var socket = io.connect('obscure-thicket-55734.herokuapp.com');
+    var socket = io.connect('localhost:9000');
     //
     socket.on('connect', function() {
         console.log('connect');
@@ -145,7 +145,7 @@
         socket.on('gpsData', function(data) {
             if(currentPoint) currentPoint.setMap(null);
             console.log(data);
-            var point = {lat:parseFloat(data.lat), lng: parseFloat(data.lng)};
+            var point = {lat:parseFloat(data.lat), lng: parseFloat(data.lon)};
             createMarker(point);
         });
     });
