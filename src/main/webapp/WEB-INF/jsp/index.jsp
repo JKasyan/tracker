@@ -151,6 +151,7 @@
     });
 
     function createMarker(point) {
+        console.log('point = ', point);
         currentPoint = new google.maps.Marker({
             position: point,
             map: map,
