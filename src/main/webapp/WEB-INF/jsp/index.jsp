@@ -136,7 +136,7 @@
 <script src="https://cdn.socket.io/socket.io-1.0.0.js"></script>
 <script>
     //https://obscure-thicket-55734.herokuapp.com
-    var socket = io.connect('http://localhost:9000');
+    var socket = io.connect('obscure-thicket-55734.herokuapp.com');
     //
     socket.on('connect', function() {
         console.log('connect');
