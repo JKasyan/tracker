@@ -136,7 +136,7 @@
 <script src="https://cdn.socket.io/socket.io-1.0.0.js"></script>
 <script>
     //https://obscure-thicket-55734.herokuapp.com
-    var socket = io.connect('obscure-thicket-55734.herokuapp.com');
+    var socket = io.connect('http://localhost:9000');
     //
     socket.on('connect', function() {
         console.log('connect');
@@ -146,14 +146,18 @@
             if(currentPoint) currentPoint.setMap(null);
             console.log(data);
             var point = {lat:parseFloat(data.lat), lng: parseFloat(data.lng)};
-            currentPoint = new google.maps.Marker({
-                position: point,
-                map: map,
-                title: 'Hello World!'
-            });
-            map.setCenter(point);
+            createMarker(point);
         });
     });
+
+    function createMarker(point) {
+        currentPoint = new google.maps.Marker({
+            position: point,
+            map: map,
+            title: 'Hello World!'
+        });
+        map.setCenter(point);
+    }
 
     function subscribeOnVehicle(idVehicle) {
         console.log('subscribeOnVehicle = ' + idVehicle);
