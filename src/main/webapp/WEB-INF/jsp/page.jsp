@@ -9,13 +9,14 @@
 <html>
 <head>
     <title>Title</title>
-    <script href="resources/js/socket.client.js"></script>
+    <%--<script href="resources/js/socket.client.js"></script>--%>
+    <script src="resources/js/socket/socket.client.js"></script>
     <script>
         //http://obscure-thicket-55734.herokuapp.com
         var socket = io.connect('http://localhost:9000');
         //
         socket.on('connect', function() {
-            console.log('connect port 8080');
+            console.log('connect port 9000');
         });
     </script>
 </head>

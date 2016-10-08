@@ -30,6 +30,8 @@
 <body>
 <div id="map"></div>
 <script>
+    var map;
+    var currentPoint;
     var poly;
     var p;
     var markers = [];
@@ -134,14 +136,34 @@
 <script src="https://cdn.socket.io/socket.io-1.0.0.js"></script>
 <script>
     //https://obscure-thicket-55734.herokuapp.com
-    var socket = io.connect('http://localhost:8080');
+    var socket = io.connect('http://localhost:9000');
     //
     socket.on('connect', function() {
         console.log('connect');
         socket.emit('subscribeOnVehicle', 100);
         //
-        socket.on('msg', console.log(msg));
+        socket.on('gpsData', function(data) {
+            if(currentPoint) currentPoint.setMap(null);
+            console.log(data);
+            var point = {lat:parseFloat(data.lat), lng: parseFloat(data.lng)};
+            currentPoint = new google.maps.Marker({
+                position: point,
+                map: map,
+                title: 'Hello World!'
+            });
+            map.setCenter(point);
+        });
     });
+
+    function subscribeOnVehicle(idVehicle) {
+        console.log('subscribeOnVehicle = ' + idVehicle);
+        socket.emit('subscribeOnVehicle', idVehicle);
+    }
+
+    function unSubscribeOnVehicle(idVehicle) {
+        console.log('unSubscribeOnVehicle = ' + idVehicle);
+        socket.emit('unSubscribeOnVehicle', idVehicle);
+    }
 </script>
 </body>
 </html>
