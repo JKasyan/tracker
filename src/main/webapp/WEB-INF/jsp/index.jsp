@@ -140,7 +140,7 @@
     //
     socket.on('connect', function() {
         console.log('connect');
-        socket.emit('subscribeOnVehicle', 100);
+        socket.emit('subscribeOnVehicle', 916584);
         //
         socket.on('gpsData', function(data) {
             if(currentPoint) currentPoint.setMap(null);
