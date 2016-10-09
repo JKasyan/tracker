@@ -36,4 +36,10 @@ public class SomeTest {
         String s = map.put(1, "One");
         System.out.println(s);
     }
+
+    @Test
+    public void envTest() {
+        String env = System.getenv("MONGODB_URI");
+        System.out.println(env);
+    }
 }
