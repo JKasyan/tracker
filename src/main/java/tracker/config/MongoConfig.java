@@ -19,7 +19,7 @@ import java.net.UnknownHostException;
 @Configuration
 public class MongoConfig {
 
-    public static final String MONGODB_URI = System.getenv("MONGODB_URI");
+    private static final String MONGODB_URI = System.getenv("MONGODB_URI");
 
     @Bean
     public MongoDbFactory mongoDbFactory() throws UnknownHostException {
@@ -28,7 +28,6 @@ public class MongoConfig {
 
     @Bean
     public MongoTemplate mongoTemplate() throws Exception {
-        //MongoClientURI clientURI = new MongoClientURI("mongodb://evgen:evgen@ds039165.mlab.com:39165/track");
         MappingMongoConverter converter = new MappingMongoConverter(mongoDbFactory(), new MongoMappingContext());
         converter.setTypeMapper(new DefaultMongoTypeMapper(null));
         return new MongoTemplate(mongoDbFactory(), converter);
