@@ -145,7 +145,7 @@
         socket.on('gpsData', function(data) {
             if(currentPoint) currentPoint.setMap(null);
             console.log(data);
-            var point = {lat:parseFloat(data.lat), lng: parseFloat(data.lon)};
+            var point = {lat:parseFloat(data.lat), lng: parseFloat(data.lng)};
             createMarker(point);
         });
     });
