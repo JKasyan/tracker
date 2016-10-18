@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tracker</title>
+    <link rel="stylesheet" href="public/css/reset.css">
+    <link rel="stylesheet" href="public/css/main.css">
+    <link rel="stylesheet" href="public/css/jquery.datetimepicker.min.css">
+    <!-- -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="public/js/jquery.datetimepicker.full.js"></script>
+</head>
+<body>
+
+<div class="header">
+    <div id="links">
+        <ul>
+            <li><a href="#">Active gadgets</a></li>
+            <li><a href="#">Find by date</a></li>
+            <li><a href="#">Tracks</a></li>
+        </ul>
+    </div>
+</div>
+
+<div id="map"></div>
+<div class="sidebar">
+    <div class="input_div">
+        <h2>First date</h2>
+        <input type="datetime" id="first_date">
+    </div>
+    <div class="input_div">
+        <h2>Second date</h2>
+        <input type="datetime" id="second_date">
+    </div>
+    <a class="points_button" id="submit_get_points">Get points</a>
+</div>
+
+<script>
+    jQuery(document).ready(function($) {
+        new google.maps.Map(document.getElementById('map'), {
+            center: {lat: 50, lng: 30},
+            zoom: 10
+        });
+        //
+        var yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        var now = new Date();
+        $('#first_date').datetimepicker({
+            value:yesterday,
+            maxDate:now
+        });
+        $('#second_date').datetimepicker({
+            value:new Date(),
+            maxDate:now
+        });
+    });
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0ZoCNEDPN29SW8f2D8jCmQBAx0nBgB-c&"></script>
+</body>
+</html>
