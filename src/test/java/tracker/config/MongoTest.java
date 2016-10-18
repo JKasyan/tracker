@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import tracker.model.Point;
+import tracker.model.User;
 
 import java.time.Instant;
 import java.util.List;
@@ -34,10 +35,9 @@ public class MongoTest {
     @Test
     public void findLast() {
         Query query = new Query();
-        query.limit(10);
-        List<Point> lastPoints = operations.find(query, Point.class);
-        System.out.println(lastPoints);
-        lastPoints.stream().map(d -> Instant.ofEpochSecond(d.getTimestamp())).forEach(System.out::println);
+        query.addCriteria(Criteria.where("email").is("j.kasyan86@gmail.com"));
+        User user = operations.findOne(query, User.class);
+        System.out.println(user);
     }
 
     @Test

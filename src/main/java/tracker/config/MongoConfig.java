@@ -19,7 +19,11 @@ import java.net.UnknownHostException;
 @Configuration
 public class MongoConfig {
 
-    private static final String MONGODB_URI = System.getenv("MONGODB_URI");
+    private static final String MONGODB_URI ;
+
+    static {
+        MONGODB_URI = System.getenv("MONGODB_URI") != null ? System.getenv("MONGODB_URI") : "mongodb://evgen:evgen@ds039165.mlab.com:39165/track";
+    }
 
     @Bean
     public MongoDbFactory mongoDbFactory() throws UnknownHostException {

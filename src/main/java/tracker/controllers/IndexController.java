@@ -16,13 +16,13 @@ import javax.servlet.http.HttpServletResponse;
 public class IndexController {
 
     //Access-Control-Allow-Origin
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String index(HttpServletResponse res) {
-        return "index";
+    @RequestMapping(value = "/main", method = RequestMethod.GET)
+    public String index() {
+        return "main";
     }
 
-    @RequestMapping(value = "/page", method = RequestMethod.GET)
-    public String page(HttpServletResponse res) {
-        return "page";
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String login() {
+        return "login";
     }
 }

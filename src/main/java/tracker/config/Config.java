@@ -3,6 +3,8 @@ package tracker.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -17,6 +19,8 @@ import org.springframework.web.servlet.view.JstlView;
 @EnableWebMvc
 @Configuration
 @ComponentScan({"tracker"})
+@EnableTransactionManagement
+@Import({SecurityConfig.class})
 public class Config extends WebMvcConfigurerAdapter {
 
 
@@ -34,13 +38,4 @@ public class Config extends WebMvcConfigurerAdapter {
         return viewResolver;
     }
 
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**");
-                ///obscure-thicket-55734.herokuapp.com/
-                /*.allowedOrigins("/localhost:8080/")
-                .allowedMethods("PUT", "GET", "POST")
-                .allowedHeaders("Access-Control-Allow-Origin")
-                .allowCredentials(true);*/
-    }
 }
