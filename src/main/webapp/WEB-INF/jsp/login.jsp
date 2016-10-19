@@ -25,7 +25,7 @@
             <label for="password">Password</label>
             <input type="password" name="password" id="password">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-            <a href="#" class="points_button" id="submit_sign_in">Sign in</a>
+            <a href="#" class="button" id="submit_sign_in">Sign in</a>
         </form>
     </div>
 </div>

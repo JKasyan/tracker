@@ -44,7 +44,7 @@
         <h2>Second date</h2>
         <input type="datetime" id="second_date">
     </div>
-    <a class="points_button" id="submit_get_points">Get points</a>
+    <a class="button" id="submit_get_points">Get points</a>
 </div>
 
 <div class="overlay">
@@ -138,7 +138,7 @@
             points.forEach(function (x) {
                 path.push({
                     lat:function(){return x.lat},
-                    lng:function(){return x.lng},
+                    lng:function(){return x.lng}
                 });
             })
         }
@@ -156,7 +156,7 @@
                 new google.maps.LatLng(latMin, lngMin),
                 new google.maps.LatLng(latMax, lngMax)
         ));
-        animateCircle(poly);
+        //animateCircle(poly);
     }
     //
     function erasePath(){
