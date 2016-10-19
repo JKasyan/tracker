@@ -21,6 +21,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User find(String email) {
+        LOGGER.debug("Find user by email = " + email);
         Query query = new Query();
         query.addCriteria(Criteria.where("email").is(email));
         User user = operations.findOne(query, User.class);

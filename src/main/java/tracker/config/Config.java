@@ -19,7 +19,7 @@ import org.springframework.web.servlet.view.JstlView;
 @EnableWebMvc
 @Configuration
 @ComponentScan({"tracker"})
-@EnableTransactionManagement
+//@EnableTransactionManagement
 @Import({SecurityConfig.class})
 public class Config extends WebMvcConfigurerAdapter {
 

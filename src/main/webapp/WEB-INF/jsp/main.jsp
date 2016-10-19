@@ -2,26 +2,43 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Index</title>
-    <style>
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
-        #map {
-            height: 100%;
-        }
-    </style>
-    <link rel="stylesheet" href="resources/css/bootstrap/bootstrap.css">
-    <link rel="stylesheet" href="resources/css/sidebar-wrapper.css">
+    <title>Tracker</title>
+    <link rel="stylesheet" href="resources/css/reset.css">
+    <link rel="stylesheet" href="resources/css/main.css">
+    <link rel="stylesheet" href="resources/css/jquery.datetimepicker.min.css">
+    <!-- -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="resources/js/bootstrap/bootstrap.js" type="text/javascript"></script>
+    <script src="resources/js/jquery.datetimepicker.full.js"></script>
     <script src="resources/js/maps.js"></script>
-    <script href="resources/js/socket.js"></script>
 </head>
 <body>
+
+<div class="header">
+    <div id="links">
+        <ul>
+            <li><a href="#">Active gadgets</a></li>
+            <li><a href="#">Find by date</a></li>
+            <li><a href="#">Tracks</a></li>
+        </ul>
+    </div>
+</div>
+
 <div id="map"></div>
+<div class="sidebar">
+    <div class="input_div">
+        <h2>First date</h2>
+        <input type="datetime" id="first_date">
+    </div>
+    <div class="input_div">
+        <h2>Second date</h2>
+        <input type="datetime" id="second_date">
+    </div>
+    <a class="points_button" id="submit_get_points">Get points</a>
+</div>
+
+<div class="overlay">
+    <img id="loading_svg_img" src="resources/img/gears.svg" alt="loading32" />
+</div>
 <script>
     var map;
     var currentPoint;
@@ -32,6 +49,18 @@
     var polylineHolder = [];
     jQuery(document).ready(function($) {
         lastPoint(initMap);
+        //
+        var yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        var now = new Date();
+        $('#first_date').datetimepicker({
+            value:yesterday,
+            maxDate:now
+        });
+        $('#second_date').datetimepicker({
+            value:new Date(),
+            maxDate:now
+        });
     });
     //
     function initMap(lastPoint){
@@ -50,8 +79,8 @@
     }
     //
     function getAndBuildByDate(from, to) {
-        var unixTimeFrom = from.getTime() / 1000;
-        var unixTimeTo = to.getTime() / 1000;
+        var unixTimeFrom = Math.round(from.getTime() / 1000);
+        var unixTimeTo = Math.round(to.getTime() / 1000);
         var url = "api/points/from=" + unixTimeFrom + "/to=" + unixTimeTo;
         console.log("url: ", url);
         $.ajax({
@@ -63,7 +92,7 @@
                 buildMultiplePolyline(data);
             }
         });
-    };
+    }
     //
     function lastPoint(callback) {
         var url = "api/points/quantity=1";
@@ -122,6 +151,19 @@
     function erasePath(){
         poly.setMap(null);
     }
+
+    $('#submit_get_points').click(function () {
+        var firstDate = $('#first_date').datetimepicker('getValue');
+        var secondDate = $('#second_date').datetimepicker('getValue');
+        //TODO: Add validation
+        getAndBuildByDate(firstDate, secondDate);
+    });
+
+    $(document).ajaxStart(function () {
+        $('div.overlay').show();
+    }).ajaxStop(function () {
+        $('div.overlay').hide();
+    })
 
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0ZoCNEDPN29SW8f2D8jCmQBAx0nBgB-c&"></script>
