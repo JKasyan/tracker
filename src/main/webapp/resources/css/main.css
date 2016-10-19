@@ -29,7 +29,7 @@ h2 {
     list-style-type: none;
 }
 
-.links_header a {
+.buttons_header {
     font-size: 16px;
     display: block;
     padding: 16px 20px;
@@ -37,8 +37,13 @@ h2 {
     color: #cfcfcf;
 }
 
-.links_header a:hover {
+.buttons_header:hover {
     color: #0f9713;
+}
+
+.buttons_header_selected {
+    color: #a1cf69;
+    /*font-weight: bold;*/
 }
 
 #my_content {
@@ -80,7 +85,7 @@ h2 {
     color: #7a8085;
 }
 
-.button {
+.tracker_button {
     color: #666c71;
     text-align: center;
     margin: 10px auto 10px auto;
@@ -99,11 +104,11 @@ h2 {
     width: 250px;
 }
 
-.button:hover {
+.tracker_button:hover {
     background-color: #b4c4c9;
 }
 
-.button:active {
+.tracker_button:active {
     border: 1px solid;
     padding-top: 7px;
     padding-bottom: 7px;
@@ -134,7 +139,7 @@ h2 {
     font: 16px Helvetica, sans-serif;
 }
 
-.inner_form form input[type=text], input[type=password] {
+.tracker_input {
     width: 180px;
     display: block;
     margin: 0.25em 0;
@@ -143,6 +148,11 @@ h2 {
     border-radius: 4px;
     box-shadow: inset 0 1px 3px #ddd;
     vertical-align: middle;
+}
+
+.tracker_input:focus {
+    outline: 0;
+    border-color: #007fff;
 }
 
 #submit_sign_in {

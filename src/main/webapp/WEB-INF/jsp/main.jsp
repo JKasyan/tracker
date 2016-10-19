@@ -16,15 +16,15 @@
 <div class="header">
     <div class="links_header left_links_header">
         <ul>
-            <li><a href="#">Active gadgets</a></li>
-            <li><a href="#">Find by date</a></li>
-            <li><a href="#">Tracks</a></li>
+            <li><a id="find_by_date" class="buttons_header buttons_header_selected" href="#">Find by date</a></li>
+            <li><a id="gadgets" class="buttons_header" href="#">Gadgets</a></li>
+            <li><a class="buttons_header" href="#">Tracks</a></li>
         </ul>
     </div>
     <div class="links_header right_links_header">
         <ul>
-            <li><a href="#">Log in</a></li>
-            <li><a id="logout_link" href="#">Log out</a></li>
+            <li><a class="buttons_header" href="#">Log in</a></li>
+            <li><a class="buttons_header" id="logout_link" href="#">Log out</a></li>
         </ul>
     </div>
 </div>
@@ -44,7 +44,7 @@
         <h2>Second date</h2>
         <input type="datetime" id="second_date">
     </div>
-    <a class="button" id="submit_get_points">Get points</a>
+    <a class="tracker_button" id="submit_get_points">Get points</a>
 </div>
 
 <div class="overlay">
@@ -61,6 +61,10 @@
     jQuery(document).ready(function($) {
         lastPoint(initMap);
         //
+        initDatePickers();
+    });
+    //
+    function initDatePickers() {
         var yesterday = new Date();
         yesterday.setDate(yesterday.getDate() - 1);
         var now = new Date();
@@ -72,7 +76,7 @@
             value:new Date(),
             maxDate:now
         });
-    });
+    }
     //
     function initMap(lastPoint){
         console.log(lastPoint.lat,', ', lastPoint.lng);
@@ -100,7 +104,7 @@
             timeout : 100000,
             success: function(data){
                 console.log(data);
-                buildMultiplePolyline(data);
+                if(data.length != 0) buildMultiplePolyline(data);
             }
         });
     }
@@ -180,13 +184,52 @@
         $('#logout_form').submit();
     })
 
+    /**
+     *
+     */
+    var selectedPage = $('a.buttons_header_selected');
+    //
+    $('#find_by_date').click(function () {
+        console.log('find_by_date');
+        if(this != selectedPage) {
+            $('.sidebar').empty().append('' +
+                    '<div class="input_div">' +
+                        '<h2>First date</h2>' +
+                        '<input type="datetime" id="first_date">' +
+                    '</div>' +
+                    '<div class="input_div">' +
+                        '<h2>Second date</h2>' +
+                        '<input type="datetime" id="second_date">' +
+                    '</div>' +
+                    '<a class="tracker_button" id="submit_get_points">Get points</a>');
+            initDatePickers();
+        }
+    });
+    //
+    $('#active_gadgets').click(function () {
+        console.log('gadgets');
+        if(this != selectedPage) {
+            $('.sidebar').empty().append('<h1>Not implemented yet</h1>');
+        }
+    });
+    //Init listener
+    $('a.buttons_header').each(function () {
+        $(this).click(function () {
+            if(this != selectedPage) {
+                $(selectedPage).removeClass('buttons_header_selected');
+                selectedPage = this;
+                $(this).addClass('buttons_header_selected');
+            }
+        })
+    });
+
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0ZoCNEDPN29SW8f2D8jCmQBAx0nBgB-c&"></script>
 <%--<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>--%>
 <script src="https://cdn.socket.io/socket.io-1.0.0.js"></script>
 <script>
     //https://obscure-thicket-55734.herokuapp.com
-    var socket = io.connect('obscure-thicket-55734.herokuapp.com');
+    /*var socket = io.connect('obscure-thicket-55734.herokuapp.com');
     //
     socket.on('connect', function() {
         console.log('connect');
@@ -218,7 +261,7 @@
     function unSubscribeOnVehicle(idVehicle) {
         console.log('unSubscribeOnVehicle = ' + idVehicle);
         socket.emit('unSubscribeOnVehicle', idVehicle);
-    }
+    }*/
 </script>
 </body>
 </html>

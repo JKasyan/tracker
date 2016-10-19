@@ -12,7 +12,7 @@
 <div class="header">
     <div class="links_header right_links_header">
         <ul>
-            <li><a href="#">Log in</a></li>
+            <li><a class="buttons_header" href="#">Log in</a></li>
         </ul>
     </div>
 </div>
@@ -21,11 +21,11 @@
     <div class="inner_form">
         <form action="/login" method="post" id="form_login">
             <label for="email">Email</label>
-            <input type="text" name="email" id="email">
+            <input class="tracker_input" type="text" name="email" id="email">
             <label for="password">Password</label>
-            <input type="password" name="password" id="password">
+            <input class="tracker_input" type="password" name="password" id="password">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-            <a href="#" class="button" id="submit_sign_in">Sign in</a>
+            <a href="#" class="tracker_button" id="submit_sign_in">Sign in</a>
         </form>
     </div>
 </div>
