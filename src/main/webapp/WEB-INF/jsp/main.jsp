@@ -206,7 +206,7 @@
         }
     });
     //
-    $('#active_gadgets').click(function () {
+    $('#gadgets').click(function () {
         console.log('gadgets');
         if(this != selectedPage) {
             $('.sidebar').empty().append('<h1>Not implemented yet</h1>');
