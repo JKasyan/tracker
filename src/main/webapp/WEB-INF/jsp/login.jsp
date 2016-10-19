@@ -10,11 +10,9 @@
 </head>
 <body>
 <div class="header">
-    <div id="links">
+    <div class="links_header right_links_header">
         <ul>
-            <li><a href="#">Active gadgets</a></li>
-            <li><a href="#">Find by date</a></li>
-            <li><a href="#">Tracks</a></li>
+            <li><a href="#">Log in</a></li>
         </ul>
     </div>
 </div>

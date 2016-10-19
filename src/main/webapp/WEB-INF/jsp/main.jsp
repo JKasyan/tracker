@@ -14,14 +14,25 @@
 <body>
 
 <div class="header">
-    <div id="links">
+    <div class="links_header left_links_header">
         <ul>
             <li><a href="#">Active gadgets</a></li>
             <li><a href="#">Find by date</a></li>
             <li><a href="#">Tracks</a></li>
         </ul>
     </div>
+    <div class="links_header right_links_header">
+        <ul>
+            <li><a href="#">Log in</a></li>
+            <li><a id="logout_link" href="#">Log out</a></li>
+        </ul>
+    </div>
 </div>
+
+<form action="/logout" method="post" id="logout_form">
+    <input type="hidden" name="${_csrf.parameterName}"
+           value="${_csrf.token}" />
+</form>
 
 <div id="map"></div>
 <div class="sidebar">
@@ -163,6 +174,10 @@
         $('div.overlay').show();
     }).ajaxStop(function () {
         $('div.overlay').hide();
+    });
+
+    $('#logout_link').click(function () {
+        $('#logout_form').submit();
     })
 
 </script>
