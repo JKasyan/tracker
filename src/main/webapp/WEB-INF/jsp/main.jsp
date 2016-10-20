@@ -66,9 +66,9 @@
     var localWindows = [];
     var polylineHolder = [];
     jQuery(document).ready(function($) {
-        //lastPoint(initMap);
+        lastPoint(initMap);
         //
-        //$('#find_by_date').trigger('click');
+        $('#find_by_date').trigger('click');
         //initDatePickers();
         //initGetPointsButton();
     });
