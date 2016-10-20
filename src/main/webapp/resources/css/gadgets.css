@@ -1,0 +1,19 @@
+#gadgets_div h1 {
+    border-bottom: 1px solid;
+    padding-bottom: 5px;
+}
+
+#gadgets_div {
+    margin-top: 20px;
+}
+
+#gadgets_div table {
+    margin: 0 auto;
+    width: 100%;
+}
+
+#gadgets_div td {
+    padding: 5px;
+    text-align: center;
+    vertical-align: middle;
+}

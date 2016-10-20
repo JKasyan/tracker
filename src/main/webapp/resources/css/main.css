@@ -3,10 +3,17 @@ html {
     margin: 0;
     padding: 0;
     font: 13px Helvetica, sans-serif;
+    color: #7a8085;
 }
 
 body {
     height: 100%;
+}
+
+h1 {
+    font-size: 22px;
+    line-height: 1.1;
+    margin: 5px;
 }
 
 h2 {
@@ -74,7 +81,6 @@ h2 {
 }
 .input_div h2 {
     margin-left: 5px;
-    color: #7a8085;
 }
 .input_div input {
     height: 25px;
@@ -135,7 +141,6 @@ h2 {
 }
 
 .inner_form label {
-    color: #7a8085;
     font: 16px Helvetica, sans-serif;
 }
 

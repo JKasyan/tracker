@@ -5,6 +5,7 @@
     <title>Tracker</title>
     <link rel="stylesheet" href="resources/css/reset.css">
     <link rel="stylesheet" href="resources/css/main.css">
+    <link rel="stylesheet" href="resources/css/gadgets.css">
     <link rel="stylesheet" href="resources/css/jquery.datetimepicker.min.css">
     <!-- -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
@@ -18,7 +19,7 @@
         <ul>
             <li><a id="find_by_date" class="buttons_header buttons_header_selected" href="#">Find by date</a></li>
             <li><a id="gadgets" class="buttons_header" href="#">Gadgets</a></li>
-            <li><a class="buttons_header" href="#">Tracks</a></li>
+            <li><a id="tracks" class="buttons_header" href="#">Tracks</a></li>
         </ul>
     </div>
     <div class="links_header right_links_header">
@@ -36,15 +37,21 @@
 
 <div id="map"></div>
 <div class="sidebar">
-    <div class="input_div">
-        <h2>First date</h2>
-        <input type="datetime" id="first_date">
+    <div id="gadgets_div">
+        <h1>Gadgets</h1>
+        <table>
+            <tr>
+                <td><img src="resources/img/lamp_active.png" style="color: yellow" alt=""></td>
+                <td>My phone</td>
+                <td>Onore de balzaka..</td>
+            </tr>
+            <tr>
+                <td><img src="resources/img/lamp_inactive.png" alt=""></td>
+                <td>My phone</td>
+                <td>Onore de balzaka..</td>
+            </tr>
+        </table>
     </div>
-    <div class="input_div">
-        <h2>Second date</h2>
-        <input type="datetime" id="second_date">
-    </div>
-    <a class="tracker_button" id="submit_get_points">Get points</a>
 </div>
 
 <div class="overlay">
@@ -59,9 +66,11 @@
     var localWindows = [];
     var polylineHolder = [];
     jQuery(document).ready(function($) {
-        lastPoint(initMap);
+        //lastPoint(initMap);
         //
-        initDatePickers();
+        //$('#find_by_date').trigger('click');
+        //initDatePickers();
+        //initGetPointsButton();
     });
     //
     function initDatePickers() {
@@ -167,12 +176,14 @@
         poly.setMap(null);
     }
 
-    $('#submit_get_points').click(function () {
-        var firstDate = $('#first_date').datetimepicker('getValue');
-        var secondDate = $('#second_date').datetimepicker('getValue');
-        //TODO: Add validation
-        getAndBuildByDate(firstDate, secondDate);
-    });
+    function initGetPointsButton() {
+        $('#submit_get_points').click(function () {
+            var firstDate = $('#first_date').datetimepicker('getValue');
+            var secondDate = $('#second_date').datetimepicker('getValue');
+            //TODO: Add validation
+            getAndBuildByDate(firstDate, secondDate);
+        });
+    }
 
     $(document).ajaxStart(function () {
         $('div.overlay').show();
@@ -203,6 +214,7 @@
                     '</div>' +
                     '<a class="tracker_button" id="submit_get_points">Get points</a>');
             initDatePickers();
+            initGetPointsButton();
         }
     });
     //
@@ -210,6 +222,13 @@
         console.log('gadgets');
         if(this != selectedPage) {
             $('.sidebar').empty().append('<h1>Not implemented yet</h1>');
+        }
+    });
+    //
+    $('#tracks').click(function () {
+        console.log('gadgets');
+        if(this != selectedPage) {
+            $('.sidebar').empty().append('<h1>Tracks not implemented yet</h1>');
         }
     });
     //Init listener
