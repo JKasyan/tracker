@@ -41,14 +41,16 @@
         <h1>Gadgets</h1>
         <table>
             <tr>
-                <td><img src="resources/img/lamp_active.png" style="color: yellow" alt=""></td>
+                <td><input data_id="" type="checkbox" disabled></td>
+                <td><img title="Active gadget" src="resources/img/lamp_active.png" alt=""></td>
                 <td>My phone</td>
-                <td>Onore de balzaka..</td>
+                <td>2016.10.16 13:50</td>
             </tr>
             <tr>
-                <td><img src="resources/img/lamp_inactive.png" alt=""></td>
-                <td>My phone</td>
-                <td>Onore de balzaka..</td>
+                <td><input data_id="" type="checkbox"></td>
+                <td><img title="Inactive gadget" src="resources/img/lamp_inactive.png" alt=""></td>
+                <td>Vika phone</td>
+                <td>2016.10.16 13:50</td>
             </tr>
         </table>
     </div>
@@ -68,7 +70,7 @@
     jQuery(document).ready(function($) {
         lastPoint(initMap);
         //
-        $('#find_by_date').trigger('click');
+        //$('#find_by_date').trigger('click');
         //initDatePickers();
         //initGetPointsButton();
     });
@@ -221,7 +223,24 @@
     $('#gadgets').click(function () {
         console.log('gadgets');
         if(this != selectedPage) {
-            $('.sidebar').empty().append('<h1>Not implemented yet</h1>');
+            $('.sidebar').empty().append('' +
+                    '<div id="gadgets_div">' +
+                        '<h1>Gadgets</h1>' +
+                        '<table>' +
+                            '<tr>' +
+                                '<td><img src="resources/img/lamp_active.png" alt=""></td>' +
+                                '<td>My phone</td>' +
+                                '<td>Onore de balzaka..</td>' +
+                            '</tr>' +
+                            '<tr>' +
+                                '<td>' +
+                                    '<img src="resources/img/lamp_inactive.png" alt="">' +
+                                '</td>' +
+                                '<td>My phone</td>' +
+                                '<td>Onore de balzaka..</td>' +
+                            '</tr>' +
+                        '</table>' +
+                    '</div>');
         }
     });
     //

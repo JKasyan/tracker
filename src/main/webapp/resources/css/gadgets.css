@@ -9,11 +9,15 @@
 
 #gadgets_div table {
     margin: 0 auto;
-    width: 100%;
+    width: 90%;
 }
 
 #gadgets_div td {
     padding: 5px;
     text-align: center;
     vertical-align: middle;
+}
+
+#gadgets_div tr {
+    border-bottom: 1px solid #7a8085;
 }
