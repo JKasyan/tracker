@@ -36,8 +36,9 @@ public class MongoTest {
     public void findLast() {
         Query query = new Query();
         query.addCriteria(Criteria.where("email").is("j.kasyan86@gmail.com"));
+        query.fields().include("gadgetIds");
         User user = operations.findOne(query, User.class);
-        System.out.println(user);
+        System.out.println(user.getGadgetIds());
     }
 
     @Test

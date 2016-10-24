@@ -9,6 +9,8 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 import tracker.model.User;
 
+import java.util.List;
+
 /**
  * Created by 1 on 10/18/2016.
  */
@@ -27,5 +29,14 @@ public class UserDaoImpl implements UserDao {
         User user = operations.findOne(query, User.class);
         LOGGER.debug("User = " + user);
         return user;
+    }
+
+    @Override
+    public List<String> findGadgets(String email) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("email").is(email));
+        query.fields().include("gadgetIds");
+        User user = operations.findOne(query, User.class);
+        return user.getGadgetIds();
     }
 }

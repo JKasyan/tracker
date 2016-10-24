@@ -3,6 +3,7 @@ package tracker.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -17,6 +18,7 @@ public class User {
     private String password;
     private boolean enabled;
     private Set<String> roles;
+    private List<String> gadgetIds;
 
     public String getId() {
         return id;
@@ -56,6 +58,14 @@ public class User {
 
     public void setRoles(Set<String> roles) {
         this.roles = roles;
+    }
+
+    public List<String> getGadgetIds() {
+        return gadgetIds;
+    }
+
+    public void setGadgetIds(List<String> gadgetIds) {
+        this.gadgetIds = gadgetIds;
     }
 
     @Override
