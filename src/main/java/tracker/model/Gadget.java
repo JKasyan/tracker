@@ -16,6 +16,15 @@ public class Gadget {
     private String userId;
     private String title;
     private LocalDateTime lastActivity;
+    private String number;
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
 
     public String getId() {
         return id;
