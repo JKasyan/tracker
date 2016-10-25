@@ -3,8 +3,6 @@ package tracker.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.LocalDateTime;
-
 /**
  * Created by 1 on 10/24/2016.
  */
@@ -15,7 +13,7 @@ public class Gadget {
     private String id;
     private String userId;
     private String title;
-    private LocalDateTime lastActivity;
+    private long lastActivity;
     private String number;
 
     public String getNumber() {
@@ -50,11 +48,22 @@ public class Gadget {
         this.title = title;
     }
 
-    public LocalDateTime getLastActivity() {
+    public long getLastActivity() {
         return lastActivity;
     }
 
-    public void setLastActivity(LocalDateTime lastActivity) {
+    public void setLastActivity(long lastActivity) {
         this.lastActivity = lastActivity;
+    }
+
+    @Override
+    public String toString() {
+        return "Gadget{" +
+                "id='" + id + '\'' +
+                ", userId='" + userId + '\'' +
+                ", title='" + title + '\'' +
+                ", lastActivity=" + lastActivity +
+                ", number='" + number + '\'' +
+                '}';
     }
 }

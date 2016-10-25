@@ -37,6 +37,7 @@ public class UserDaoImpl implements UserDao {
         query.addCriteria(Criteria.where("email").is(email));
         query.fields().include("gadgetIds");
         User user = operations.findOne(query, User.class);
+        LOGGER.debug("Gadgets ids = " + user.getGadgetIds());
         return user.getGadgetIds();
     }
 }

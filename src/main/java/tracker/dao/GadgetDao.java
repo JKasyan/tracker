@@ -1,6 +1,7 @@
 package tracker.dao;
 
 import tracker.model.Gadget;
+import tracker.model.GadgetAggregation;
 
 import java.util.List;
 
@@ -10,4 +11,6 @@ import java.util.List;
 public interface GadgetDao {
 
     List<Gadget> gadgets(String email);
+    List<GadgetAggregation> getLastActivityOfGadgets(List<String> gadgetIds);
+
 }

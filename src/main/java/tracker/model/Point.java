@@ -15,22 +15,12 @@ import java.util.Date;
 public class Point {
 
     @Id
-    private String id;
+    private String _id;
 
     @JsonView
     private double lat, lng;
     private long timestamp;
-    private String devId;
-    private Date time;
-
-    public Point(String devId, double lat, double lng, long timestamp) {
-        this.lat = lat;
-        this.lng = lng;
-        this.timestamp = timestamp;
-        this.devId = devId;
-    }
-
-    public Point() {}
+    private String gadgetNumber;
 
     public double getLat() {
         return lat;
@@ -48,38 +38,38 @@ public class Point {
         this.lng = lng;
     }
 
-    public String getId() {
-        return id;
+    public String get_id() {
+        return _id;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void set_id(String _id) {
+        this._id = _id;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
     }
 
     public long getTimestamp() {
         return timestamp;
     }
 
-    public String getDevId() {
-        return devId;
+    public String getGadgetNumber() {
+        return gadgetNumber;
     }
 
-    public void setTime(Date time) {
-        this.time = time;
-    }
-
-    public Date getTime() {
-        return time;
+    public void setGadgetNumber(String gadgetNumber) {
+        this.gadgetNumber = gadgetNumber;
     }
 
     @Override
     public String toString() {
         return "Point{" +
-                "id='" + id + '\'' +
+                "_id='" + _id + '\'' +
                 ", lat=" + lat +
                 ", lng=" + lng +
                 ", timestamp=" + timestamp +
-                ", devId='" + devId + '\'' +
+                ", gadgetNumber='" + gadgetNumber + '\'' +
                 '}';
     }
 }

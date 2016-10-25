@@ -3,13 +3,18 @@ package tracker.dao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 import tracker.model.Gadget;
+import tracker.model.GadgetAggregation;
 
 import java.util.List;
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
 
 /**
  * Created by 1 on 10/24/2016.
@@ -28,8 +33,16 @@ public class GadgetDaoImpl implements GadgetDao {
         return operations.find(query, Gadget.class);
     }
 
-    public List<Gadget> gadgets(List<String> userIds) {
-
-        return null;
+    @Override
+    public List<GadgetAggregation> getLastActivityOfGadgets(List<String> userIds) {
+        Aggregation aggregation = newAggregation(
+                match(Criteria.where("gadgetNumber").in(userIds)),
+                group("gadgetNumber").max("timestamp").as("lastActivity"),
+                sort(Sort.Direction.DESC, "lastActivity")
+        );
+        AggregationResults<GadgetAggregation> aggregate = operations.aggregate(aggregation, Gadget.class, GadgetAggregation.class);
+        List<GadgetAggregation> mappedResults = aggregate.getMappedResults();
+        LOGGER.debug("Result aggregation: " + mappedResults);
+        return mappedResults;
     }
 }
