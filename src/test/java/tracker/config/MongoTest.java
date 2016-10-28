@@ -40,9 +40,19 @@ public class MongoTest {
     @Test
     public void test() {
         Query query = new Query();
-        query.with(new Sort(Sort.Direction.DESC, "timestamp"));
-        Point one = operations.findOne(query, Point.class);
-        System.out.println("Point = " + one);
+        query.addCriteria(Criteria.where("id").exists(true));
+        //query.with(new Sort(Sort.Direction.DESC, "timestamp"));
+        Long count = operations.count(query, Point.class);
+        System.out.println("Points = " + count);
+    }
+
+    @Test
+    public void updateTest() {
+        Query query = new Query();
+        Update update = new Update();
+        update.rename("id", "gadgetNumber");
+        WriteResult writeResult = operations.updateMulti(query, update, Point.class);
+        System.out.println(writeResult);
     }
 
     @Test
