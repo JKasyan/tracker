@@ -1,5 +1,6 @@
 package tracker.service;
 
+import tracker.model.Gadget;
 import tracker.model.Point;
 
 import java.util.List;
@@ -15,4 +16,5 @@ public interface TrackerService {
     List<Point> getPoints(long from, long to);
     List<Point> allPoints(int lastPoints);
     void savePoint(Point point);
+    List<Gadget> getGadgets(String email);
 }

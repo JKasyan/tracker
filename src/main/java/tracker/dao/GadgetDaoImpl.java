@@ -27,9 +27,10 @@ public class GadgetDaoImpl implements GadgetDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(PointsDaoImpl.class);
 
     @Override
-    public List<Gadget> gadgets(String email) {
+    public List<Gadget> gadgets(String userId) {
         Query query = new Query();
-        query.addCriteria(Criteria.where("email").is(email));
+        query.addCriteria(Criteria.where("userId").is(userId));
+        //query.with(new Sort(Sort.Direction.DESC, ""));
         return operations.find(query, Gadget.class);
     }
 

@@ -1,4 +1,4 @@
-package tracker.dao.gadget;
+package tracker.dao.cache;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;

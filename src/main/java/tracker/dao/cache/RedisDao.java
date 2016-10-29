@@ -1,4 +1,4 @@
-package tracker.dao.gadget;
+package tracker.dao.cache;
 
 import java.util.Collection;
 import java.util.List;

@@ -10,7 +10,7 @@ import java.util.List;
  */
 public interface GadgetDao {
 
-    List<Gadget> gadgets(String email);
+    List<Gadget> gadgets(String idUser);
     List<GadgetAggregation> getLastActivityOfGadgets(List<String> gadgetIds);
 
 }

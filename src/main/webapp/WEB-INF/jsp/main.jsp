@@ -37,8 +37,11 @@
 
 <div id="map"></div>
 <div class="sidebar">
-    <div id="gadgets_div">
-        <h1>Gadgets</h1>
+    <%--<div id="gadgets_div">
+        <div>
+            <h1>Gadgets</h1>
+            <a id="new_gadget" class="tracker_button" href="#">New</a>
+        </div>
         <table>
             <tr>
                 <td><input data_id="" type="checkbox" disabled></td>
@@ -53,7 +56,7 @@
                 <td>2016.10.16 13:50</td>
             </tr>
         </table>
-    </div>
+    </div>--%>
 </div>
 
 <div class="overlay">
@@ -70,9 +73,9 @@
     jQuery(document).ready(function($) {
         lastPoint(initMap);
         //
-        //$('#find_by_date').trigger('click');
-        //initDatePickers();
-        //initGetPointsButton();
+        $('#find_by_date').trigger('click');
+        initDatePickers();
+        initGetPointsButton();
     });
     //
     function initDatePickers() {
@@ -89,7 +92,7 @@
         });
     }
     //
-    function initMap(lastPoint){
+    function initMap(lastPoint) {
         console.log(lastPoint.lat,', ', lastPoint.lng);
         map = new google.maps.Map(document.getElementById('map'), {
             center: {lat: lastPoint.lat, lng: lastPoint.lng},
@@ -223,26 +226,64 @@
     $('#gadgets').click(function () {
         console.log('gadgets');
         if(this != selectedPage) {
-            $('.sidebar').empty().append('' +
-                    '<div id="gadgets_div">' +
-                        '<h1>Gadgets</h1>' +
-                        '<table>' +
-                            '<tr>' +
-                                '<td><img src="resources/img/lamp_active.png" alt=""></td>' +
-                                '<td>My phone</td>' +
-                                '<td>Onore de balzaka..</td>' +
-                            '</tr>' +
-                            '<tr>' +
-                                '<td>' +
-                                    '<img src="resources/img/lamp_inactive.png" alt="">' +
-                                '</td>' +
-                                '<td>My phone</td>' +
-                                '<td>Onore de balzaka..</td>' +
-                            '</tr>' +
-                        '</table>' +
-                    '</div>');
+            $.ajax({
+                type: "GET",
+                url : 'api/gadgets',
+                timeout : 100000,
+                success: function(data) {
+                    console.log('My gadgets = ', data);
+                    if(data.length != 0) {
+                        $('.sidebar').empty().append(fillGadgetsTable(data));
+                    }
+                }
+            });
         }
     });
+    //
+    function fillGadgetsTable(data) {
+        var currentDate = new Date();
+        var html =
+                '<div id="gadgets_div">' +
+                    '<div>' +
+                        '<h1>Gadgets</h1>' +
+                        '<a id="new_gadget" class="tracker_button" href="#">New</a>' +
+                    '</div>' +
+                    '<table>';
+        data.forEach(function(gadget) {
+            var time;
+            var isActive;
+            if(gadget.lastActivity) {
+                time = timestampToDateFormat(gadget.lastActivity);
+                isActive = currentDate.getTime() - gadget.lastActivity * 1000 > 5 * 60 * 1000;
+            }
+            var title = gadget.title;
+            var imageActivity = isActive ? "lamp_inactive.png" : "lamp_active.png";
+            console.log('title = ', title, ', imageActivity = ', imageActivity, ', time = ', time)
+            html += '<tr>' +
+                        '<td><input data_id="' + gadget.number + '" type="checkbox" ></td>' +
+                        '<td><img src="resources/img/' + imageActivity + '" alt=""></td>' +
+                        '<td>' + title + '</td>' +
+                        '<td>' + time + '</td>' +
+                    '</tr>'
+        });
+        html += '</table>' +
+                        '</div>';
+        return html;
+    }
+    //
+    function timestampToDateFormat(seconds) {
+        var monthNames = [
+            "January", "February", "March",
+            "April", "May", "June", "July",
+            "August", "September", "October",
+            "November", "December"
+        ];
+        var date = new Date(seconds * 1000);
+        var minutes = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
+        var month = monthNames[date.getMonth()];
+        return date.getFullYear() + ' ' + month + ' ' + date.getUTCDate() + ' ' +
+                date.getHours() + ':' + minutes;
+    }
     //
     $('#tracks').click(function () {
         console.log('gadgets');
@@ -266,12 +307,13 @@
 <%--<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>--%>
 <script src="https://cdn.socket.io/socket.io-1.0.0.js"></script>
 <script>
+    var socket = null;
     //https://obscure-thicket-55734.herokuapp.com
-    /*var socket = io.connect('obscure-thicket-55734.herokuapp.com');
+    /*var socket = io.connect('http://localhost:3000');
     //
     socket.on('connect', function() {
         console.log('connect');
-        socket.emit('subscribeOnVehicle', 916584);
+        socket.emit('subscribeOnVehicle', '580e2049dcba0f042d5dedea');
         //
         socket.on('gpsData', function(data) {
             if(currentPoint) currentPoint.setMap(null);

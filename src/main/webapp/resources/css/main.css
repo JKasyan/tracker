@@ -100,6 +100,8 @@ h2 {
     padding-top: 8px;
     padding-bottom: 8px;
     background-color: #c3d2d7;
+    /*-webkit-gradient(linear, left top, left bottom, from(#58afd9), to(#3a97cb))*/
+    /*background: -webkit-gradient(linear, left top, left bottom, from(#58afd9), to(#3a97cb));*/
     border: rgba(0,0,0,0);
     font-size: 15px;
     border-radius: 5px;
@@ -111,14 +113,16 @@ h2 {
 }
 
 .tracker_button:hover {
+    /*background: -webkit-gradient(linear, left top, left bottom, from(#9ba3a8), to(#666c71));*/
     background-color: #b4c4c9;
 }
 
 .tracker_button:active {
-    border: 1px solid;
+    /*border: 1px solid;
     padding-top: 7px;
     padding-bottom: 7px;
-    width: 248px;
+    width: 248px;*/
+    background: -webkit-gradient(linear, left top, left bottom, from(#818990), to(#b9c1c6));
 }
 
 /*
@@ -182,4 +186,26 @@ h2 {
     z-index: 9999;
 }
 
+.info_window {
+    width: 250px;
+    overflow: hidden;
+}
+
+.info_window h1 {
+    text-align: center;
+}
+
+.info_window_row {
+    width: 220px;
+    height: 20px;
+    margin: 0 auto;
+}
+
+.info_window_row h3:first-child {
+    float: left;
+}
+
+.info_window_row h3:last-child {
+    float: right;
+}
 

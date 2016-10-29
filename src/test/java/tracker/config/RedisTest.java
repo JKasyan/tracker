@@ -22,7 +22,7 @@ public class RedisTest {
 
     @Test
     public void getKeyTest() {
-        String one = (String)redisTemplate.opsForValue().get("580e2049dcba0f042d5dedea:lastActivity");
+        String one = redisTemplate.opsForValue().get("580e2049dcba0f042d5dedea:lastActivity");
         System.out.println(one);
         List<String> objects = redisTemplate.opsForValue().multiGet(Arrays.asList("one", "two"));
         System.out.println(objects);

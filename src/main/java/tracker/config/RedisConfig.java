@@ -18,9 +18,9 @@ public class RedisConfig {
     private static final Integer REDIS_PORT;
 
     static {
-        REDIS_PASS = System.getenv("REDIS_PASS") != null ? System.getenv("REDIS_PASS") : "Evgen_ROOT";
-        REDIS_HOST = System.getenv("REDIS_HOST") != null ? System.getenv("REDIS_HOST") : "redis-16002.c10.us-east-1-2.ec2.cloud.redislabs.com";
-        REDIS_PORT = System.getenv("REDIS_PORT") != null ? Integer.valueOf(System.getenv("REDIS_PORT")) : 16002;
+        REDIS_PASS = System.getenv("REDIS_PASS");
+        REDIS_HOST = System.getenv("REDIS_HOST");
+        REDIS_PORT = Integer.valueOf(System.getenv("REDIS_PORT"));
     }
 
     @Bean

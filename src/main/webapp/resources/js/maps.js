@@ -117,13 +117,15 @@ function addPolylineWithMarkersAndInfoWindows(points) {
     });
     //
     const infoWindowStart = new google.maps.InfoWindow({
-        content: infoWindow(points[0].timestamp, 'Start', points)
+        content: infoWindow(points[0].timestamp, 'Start', points),
+        maxWidth: 250
     });
     firstMarker.addListener('click', function () {
         infoWindowStart.open(map, firstMarker);
     });
     const infoWindowFinish = new google.maps.InfoWindow({
-        content: infoWindow(points[points.length - 1].timestamp, 'Finish', points)
+        content: infoWindow(points[points.length - 1].timestamp, 'Finish', points),
+        maxWidth: 250
     });
     lastMarker.addListener('click', function () {
         infoWindowFinish.open(map, lastMarker);
@@ -136,6 +138,18 @@ function addPolylineWithMarkersAndInfoWindows(points) {
     markers.push(lastMarker);
     //
     polyline.setMap(map);
+    //
+    google.maps.event.addListener(polyline, 'mouseover', function (event) {
+        this.setOptions({
+            strokeOpacity: 1
+        });
+    });
+
+    google.maps.event.addListener(polyline, 'mouseout', function (event) {
+        this.setOptions({
+            strokeOpacity: 0.5
+        });
+    });
 }
 
 
@@ -192,13 +206,24 @@ function _rightPoint(points) {
 }
 
 function infoWindow(timestamp, title, points) {
-    var date = new Date(timestamp * 1000);
     var d = distance(points) | 0;
-    return '<div>' +
-            '<h3 style="text-align: center">' + title + '</h3>' +
-            '<span>Date: ' + date + '</span><br/>' +
-            '<span>Distance: ' + d + ' meters</span>' +
-        '</div>'
+    console.log(points[points.length - 1].timestamp - points[0].timestamp)
+    var middleSpeed = Math.round(d / (points[points.length - 1].timestamp - points[0].timestamp));
+    return '<div class="info_window">' +
+                '<h1>' + title + '</h1>' +
+                '<div class="info_window_row">' +
+                    '<h3>Date:</h3>' +
+                    '<h3>' + timestampToDateFormat(timestamp) + '</h3>' +
+                '</div>' +
+                '<div class="info_window_row">' +
+                    '<h3>Distance:</h3>' +
+                    '<h3>' + d + ' meters</h3>' +
+                '</div>' +
+                '<div class="info_window_row">' +
+                    '<h3>Middle speed:</h3>' +
+                    '<h3>' + middleSpeed + ' m/s</h3>' +
+                '</div>' +
+            '</div>'
 }
 
 
