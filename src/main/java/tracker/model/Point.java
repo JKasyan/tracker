@@ -21,6 +21,15 @@ public class Point {
     private double lat, lng;
     private long timestamp;
     private String gadgetNumber;
+    private Double speed;
+
+    public Double getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(Double speed) {
+        this.speed = speed;
+    }
 
     public double getLat() {
         return lat;
@@ -68,6 +77,7 @@ public class Point {
                 "_id='" + _id + '\'' +
                 ", lat=" + lat +
                 ", lng=" + lng +
+                ", speed=" + speed +
                 ", timestamp=" + timestamp +
                 ", gadgetNumber='" + gadgetNumber + '\'' +
                 '}';

@@ -25,30 +25,6 @@ var getDistance = function(p1, p2) {
     return R * c; // returns the distance in meter
 };
 
-function speedChecker(points) {
-    var speed = [];
-    for(var i = 0;i<points.length - 1;i++) {
-        var p1 = points[i];
-        var p2 = points[i + 1];
-        var dist = getDistance(p1, p2);
-        var time = p2.timestamp  - p1.timestamp;
-        var speedMs = dist/time;
-        speed.push(speedMs * 3.6);
-    }
-    return speed;
-}
-
-function animateCircle(line) {
-    var count = 0;
-    window.setInterval(function() {
-        count = (count + 1) % 200;
-
-        var icons = line.get('icons');
-        icons[0].offset = (count / 2) + '%';
-        line.set('icons', icons);
-    }, 100);
-}
-
 function buildMultiplePolyline(points) {
     _clearMap();
     console.log('Initial size=', points.length);
@@ -96,6 +72,9 @@ function buildMultiplePolyline(points) {
 
 
 function addPolylineWithMarkersAndInfoWindows(points) {
+    //
+    validatesSpeed(points);
+    //
     var polyline = new google.maps.Polyline({
         path: points,
         geodesic: true,
@@ -150,7 +129,56 @@ function addPolylineWithMarkersAndInfoWindows(points) {
             strokeOpacity: 0.5
         });
     });
+
+    var chartData = points.map(function (point) {
+        if(!point.speed) {
+            console.log('speed null')
+        }
+        return {timestamp: point.timestamp * 1000, speed: point.speed};
+    });
+
+    console.log('chart data = ', chartData);
+
+    google.maps.event.addListener(polyline, 'click', function (event) {
+        var chart = new Morris.Line({
+            element:'chart',
+            data: chartData,
+            xkey: 'timestamp',
+            ykeys:['speed'],
+            labels: ['speed']
+        });
+        $('#chart_overlay').show();
+        chart.redraw();
+    });
 }
+
+/**
+ * Set speed if it is null
+ */
+function validatesSpeed(points) {
+    if(!points) return;
+    var previousPoint;
+    for(var i = 0; i < points.length;i++) {
+        if(!i) previousPoint = points[i];
+        if(!points[i].speed) {
+            if(i == 0) {
+                points.speed = 0;
+            } else {
+                var dist = distance2Points(points[i], points[i - 1]);
+                var speed = dist / (points[i].timestamp - points[i-1].timestamp);
+                console.log('Speed = ', speed);
+                points[i].speed = speed;
+            }
+        }
+    }
+}
+/**
+ *
+ */
+$('#chart_overlay').click(function() {
+    $(this).hide();
+    $('#chart_wrapper').empty();
+})
 
 
 function _clearMap() {
@@ -207,7 +235,6 @@ function _rightPoint(points) {
 
 function infoWindow(timestamp, title, points) {
     var d = distance(points) | 0;
-    console.log(points[points.length - 1].timestamp - points[0].timestamp)
     var middleSpeed = Math.round(d / (points[points.length - 1].timestamp - points[0].timestamp));
     return '<div class="info_window">' +
                 '<h1>' + title + '</h1>' +
@@ -247,4 +274,8 @@ function distance(points) {
         dist += getDistance(points[i-1], points[i]);
     }
     return dist;
+}
+
+function distance2Points(p1, p2) {
+    return distance([p1, p2]);
 }

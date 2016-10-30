@@ -8,9 +8,14 @@
     <link rel="stylesheet" href="resources/css/gadgets.css">
     <link rel="stylesheet" href="resources/css/jquery.datetimepicker.min.css">
     <!-- -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+    <!-- -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="resources/js/jquery.datetimepicker.full.js"></script>
     <script src="resources/js/maps.js"></script>
+    <!-- -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
 </head>
 <body>
 
@@ -36,31 +41,16 @@
 </form>
 
 <div id="map"></div>
-<div class="sidebar">
-    <%--<div id="gadgets_div">
-        <div>
-            <h1>Gadgets</h1>
-            <a id="new_gadget" class="tracker_button" href="#">New</a>
-        </div>
-        <table>
-            <tr>
-                <td><input data_id="" type="checkbox" disabled></td>
-                <td><img title="Active gadget" src="resources/img/lamp_active.png" alt=""></td>
-                <td>My phone</td>
-                <td>2016.10.16 13:50</td>
-            </tr>
-            <tr>
-                <td><input data_id="" type="checkbox"></td>
-                <td><img title="Inactive gadget" src="resources/img/lamp_inactive.png" alt=""></td>
-                <td>Vika phone</td>
-                <td>2016.10.16 13:50</td>
-            </tr>
-        </table>
-    </div>--%>
+<div class="sidebar"></div>
+
+<div id="ajax_overlay" class="overlay">
+    <img id="loading_svg_img" src="resources/img/gears.svg" alt="loading32" />
 </div>
 
-<div class="overlay">
-    <img id="loading_svg_img" src="resources/img/gears.svg" alt="loading32" />
+<div class="overlay" id="chart_overlay" >
+    <div class="chart_wrapper">
+        <div id="chart" style="height: 250px;"></div>
+    </div>
 </div>
 <script>
     var map;
@@ -191,9 +181,9 @@
     }
 
     $(document).ajaxStart(function () {
-        $('div.overlay').show();
+        $('#ajax_overlay').show();
     }).ajaxStop(function () {
-        $('div.overlay').hide();
+        $('#ajax_overlay').hide();
     });
 
     $('#logout_link').click(function () {
@@ -301,6 +291,10 @@
             }
         })
     });
+
+    $('#chart_overlay').click(function () {
+        $(this).hide();
+    })
 
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0ZoCNEDPN29SW8f2D8jCmQBAx0nBgB-c&"></script>
