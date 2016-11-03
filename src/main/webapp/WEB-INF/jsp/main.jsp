@@ -48,7 +48,7 @@
 </div>
 
 <div class="overlay" id="chart_overlay" >
-    <div class="chart_wrapper">
+    <div id="chart_wrapper_id" class="chart_wrapper">
         <div id="chart" style="height: 250px;"></div>
     </div>
 </div>
@@ -294,6 +294,7 @@
 
     $('#chart_overlay').click(function () {
         $(this).hide();
+        $('#chart_wrapper_id').empty();
     })
 
 </script>

@@ -139,7 +139,7 @@ function addPolylineWithMarkersAndInfoWindows(points) {
 
     console.log('chart data = ', chartData);
 
-    google.maps.event.addListener(polyline, 'click', function (event) {
+    /*google.maps.event.addListener(polyline, 'click', function (event) {
         var chart = new Morris.Line({
             element:'chart',
             data: chartData,
@@ -149,7 +149,7 @@ function addPolylineWithMarkersAndInfoWindows(points) {
         });
         $('#chart_overlay').show();
         chart.redraw();
-    });
+    });*/
 }
 
 /**
@@ -157,17 +157,22 @@ function addPolylineWithMarkersAndInfoWindows(points) {
  */
 function validatesSpeed(points) {
     if(!points) return;
-    var previousPoint;
     for(var i = 0; i < points.length;i++) {
-        if(!i) previousPoint = points[i];
         if(!points[i].speed) {
             if(i == 0) {
-                points.speed = 0;
+                console.log('First point with invalid speed');
+                points[i].speed = 0;
+            } else if(!points[i].lat || !points[i].lng || !points[i].timestamp || !points[i-1].timestamp) {
+                console.log('Invalid lat or lng = ', points[i].lng, points[i].lat);
+                points[i].speed = 0;
             } else {
                 var dist = distance2Points(points[i], points[i - 1]);
                 var speed = dist / (points[i].timestamp - points[i-1].timestamp);
                 console.log('Speed = ', speed);
-                points[i].speed = speed;
+                if(!speed || isNaN(speed)) {
+                    points[i].speed = 0;
+                }
+                points[i].speed = Math.round(speed);
             }
         }
     }
@@ -175,10 +180,6 @@ function validatesSpeed(points) {
 /**
  *
  */
-$('#chart_overlay').click(function() {
-    $(this).hide();
-    $('#chart_wrapper').empty();
-})
 
 
 function _clearMap() {
