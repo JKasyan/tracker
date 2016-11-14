@@ -14,6 +14,7 @@
     <script src="resources/js/jquery.datetimepicker.full.js"></script>
     <script src="resources/js/maps.js"></script>
     <script src="resources/js/gadgets.js"></script>
+    <script src="resources/js/socket.js"></script>
     <!-- -->
     <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
@@ -316,7 +317,6 @@
     })
 
 </script>
-<script src="resources/js/socket.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0ZoCNEDPN29SW8f2D8jCmQBAx0nBgB-c&"></script>
 <%--<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>--%>
 <script src="https://cdn.socket.io/socket.io-1.0.0.js"></script>
