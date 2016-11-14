@@ -262,6 +262,7 @@
         $('#gadgets_div input').click(function () {
             var isSubscribes = $(this).prop('checked');
             var gadgetId = $(this).attr('data_id');
+            console.log('isSubscribes = ', isSubscribes, ', gadgetId = ', gadgetId);
             var self = this;
             $('#gadgets_div input').each(function (index, el) {
                 if(self != el && $(this).prop('checked')) {
@@ -269,9 +270,11 @@
                 }
             });
             if(isSubscribes) {
+                console.log('Subscribe on ', gadgetId);
                 gadgetSubscribing.unSubscribe().subscribe(gadgetId);
                 //TODO: Show only one gadget on map
             } else {
+                console.log('Un subscribe');
                 gadgetSubscribing.unSubscribe();
                 //TODO: Show all gadgets
             }
