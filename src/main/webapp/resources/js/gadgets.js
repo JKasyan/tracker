@@ -1,12 +1,21 @@
 /**
- * Created by kasyan on 10/29/16.
+ * Created by kasyan on 10/2/16.
  */
+var GadgetSubscribe = function (socket) {
+    this.socket = socket;
+}
 
-function subscriveOnGadget(idGadget) {
-    if(!socket) {
-        socket = io.connect('https://obscure-thicket-55734.herokuapp.com');
+GadgetSubscribe.prototype.subscribe = function (gadgetId) {
+    if(this.gadgetId) throw new Error('You already subscribed on = ' + this.gadgetId);
+    this.gadgetId = gadgetId;
+    this.socket.emit('subscribeOnVehicle', gadgetId);
+    return this;
+}
+
+GadgetSubscribe.prototype.unSubscribe = function () {
+    if(this.gadgetId) {
+        this.socket.emit('unSubscribeOnVehicle', this.gadgetId);
     }
-    socket.on('connect', function() {
-        console.log('Socket connected!');
-    })
+    this.gadgetId = null;
+    return this;
 }
