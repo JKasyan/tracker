@@ -60,6 +60,8 @@
     var markers = [];
     var localWindows = [];
     var polylineHolder = [];
+    var socket = io.connect('https://obscure-thicket-55734.herokuapp.com');
+    var gadgetSubscribing = null;
     jQuery(document).ready(function($) {
         lastPoint(initMap);
         //
@@ -256,6 +258,17 @@
                         '<td>' + time + '</td>' +
                     '</tr>'
         });
+        $('#gadgets_div input').click(function () {
+            var isSubcribes = $(this).prop('checked');
+            var gadgetId = $(this).attr('data_id');
+            if(gadgetSubscribing) {
+
+            } else {
+                gadgetSubscribing = new GadgetSubscribe(socket);
+
+                gadgetSubscribing.subscribe(gadgetId);
+            }
+        });
         html += '</table>' +
                         '</div>';
         return html;
@@ -298,45 +311,12 @@
     })
 
 </script>
+<script src="resources/js/socket.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0ZoCNEDPN29SW8f2D8jCmQBAx0nBgB-c&"></script>
 <%--<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>--%>
 <script src="https://cdn.socket.io/socket.io-1.0.0.js"></script>
 <script>
-    var socket = null;
     //https://obscure-thicket-55734.herokuapp.com
-    /*var socket = io.connect('http://localhost:3000');
-    //
-    socket.on('connect', function() {
-        console.log('connect');
-        socket.emit('subscribeOnVehicle', '580e2049dcba0f042d5dedea');
-        //
-        socket.on('gpsData', function(data) {
-            if(currentPoint) currentPoint.setMap(null);
-            console.log(data);
-            var point = {lat:parseFloat(data.lat), lng: parseFloat(data.lng)};
-            createMarker(point);
-        });
-    });
-
-    function createMarker(point) {
-        console.log('point = ', point);
-        currentPoint = new google.maps.Marker({
-            position: point,
-            map: map,
-            title: 'Hello World!'
-        });
-        map.setCenter(point);
-    }
-
-    function subscribeOnVehicle(idVehicle) {
-        console.log('subscribeOnVehicle = ' + idVehicle);
-        socket.emit('subscribeOnVehicle', idVehicle);
-    }
-
-    function unSubscribeOnVehicle(idVehicle) {
-        console.log('unSubscribeOnVehicle = ' + idVehicle);
-        socket.emit('unSubscribeOnVehicle', idVehicle);
-    }*/
 </script>
 </body>
 </html>

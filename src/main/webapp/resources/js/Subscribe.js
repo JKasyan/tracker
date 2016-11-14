@@ -1,23 +1,17 @@
 /**
  * Created by kasyan on 10/2/16.
  */
-var Chat = function (socket, vehicleId) {
-    console.log('vehicleId = ' + vehicleId);
+var GadgetSubscribe = function (socket) {
     this.socket = socket;
-    this.vehicleId = vehicleId;
-    socket.emit('subscribe', {vehicleId: vehicleId});
-    console.log(socket);
 }
 
-var socket = io.connect('http://127.0.0.1:3003');
+GadgetSubscribe.prototype.subscribe = function (gadgetId) {
+    if(this.gadgetId) throw new Error('You subscribed on = ' + his.gadgetId);
+    this.gadgetId = gadgetId;
+    this.socket.emit('subscribeOnVehicle', gadgetId);
+}
 
-var chat;
-
-socket.on('connect', function() {
-    console.log('Connected...');
-    chat = new Chat(socket, 1001);
-});
-
-socket.on('message', function(msg) {
-    console.log(msg);
-});
+GadgetSubscribe.prototype.unsubscribe = function (gadgetId) {
+    this.gadgetId = null;
+    this.socket.emit('unSubscribeOnVehicle', gadgetId);
+}
