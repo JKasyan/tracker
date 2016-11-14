@@ -1,6 +1,9 @@
 /**
  * Created by 1 on 11/14/2016.
  */
+
+var socket = io.connect('https://obscure-thicket-55734.herokuapp.com');
+
 socket.on('connect', function () {
     console.log('connect');
     //
@@ -10,14 +13,15 @@ socket.on('connect', function () {
         var point = {lat: parseFloat(data.lat), lng: parseFloat(data.lng)};
         createMarker(point);
     });
+
+    function createMarker(point) {
+        console.log('point = ', point);
+        currentPoint = new google.maps.Marker({
+            position: point,
+            map: map,
+            title: gadgetSubscribing.gadgetId
+        });
+        map.setCenter(point);
+    }
 });
 
-function createMarker(point) {
-    console.log('point = ', point);
-    currentPoint = new google.maps.Marker({
-        position: point,
-        map: map,
-        title: gadgetSubscribing.gadgetId
-    });
-    map.setCenter(point);
-}

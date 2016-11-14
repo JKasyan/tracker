@@ -56,12 +56,10 @@
     var map;
     var currentPoint;
     var poly;
-    var p;
     var markers = [];
     var localWindows = [];
     var polylineHolder = [];
-    var socket = io.connect('https://obscure-thicket-55734.herokuapp.com');
-    var gadgetSubscribing = null;
+    var gadgetSubscribing = new GadgetSubscribe(socket);
     jQuery(document).ready(function($) {
         lastPoint(initMap);
         //
@@ -259,14 +257,20 @@
                     '</tr>'
         });
         $('#gadgets_div input').click(function () {
-            var isSubcribes = $(this).prop('checked');
+            var isSubscribes = $(this).prop('checked');
             var gadgetId = $(this).attr('data_id');
-            if(gadgetSubscribing) {
-
+            var self = this;
+            $('#gadgets_div input').each(function (index, el) {
+                if(self != el && $(this).prop('checked')) {
+                    $(this).prop('checked', false);
+                }
+            });
+            if(isSubscribes) {
+                gadgetSubscribing.unSubscribe().subscribe(gadgetId);
+                //TODO: Show only one gadget on map
             } else {
-                gadgetSubscribing = new GadgetSubscribe(socket);
-
-                gadgetSubscribing.subscribe(gadgetId);
+                gadgetSubscribing.unSubscribe();
+                //TODO: Show all gadgets
             }
         });
         html += '</table>' +
@@ -315,8 +319,5 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0ZoCNEDPN29SW8f2D8jCmQBAx0nBgB-c&"></script>
 <%--<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>--%>
 <script src="https://cdn.socket.io/socket.io-1.0.0.js"></script>
-<script>
-    //https://obscure-thicket-55734.herokuapp.com
-</script>
 </body>
 </html>

@@ -6,12 +6,16 @@ var GadgetSubscribe = function (socket) {
 }
 
 GadgetSubscribe.prototype.subscribe = function (gadgetId) {
-    if(this.gadgetId) throw new Error('You subscribed on = ' + his.gadgetId);
+    if(this.gadgetId) throw new Error('You already subscribed on = ' + this.gadgetId);
     this.gadgetId = gadgetId;
     this.socket.emit('subscribeOnVehicle', gadgetId);
+    return this;
 }
 
-GadgetSubscribe.prototype.unsubscribe = function (gadgetId) {
+GadgetSubscribe.prototype.unSubscribe = function () {
+    if(this.gadgetId) {
+        this.socket.emit('unSubscribeOnVehicle', this.gadgetId);
+    }
     this.gadgetId = null;
-    this.socket.emit('unSubscribeOnVehicle', gadgetId);
+    return this;
 }
