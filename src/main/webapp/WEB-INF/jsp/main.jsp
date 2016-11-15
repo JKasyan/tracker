@@ -64,11 +64,11 @@
     var polylineHolder = [];
     var gadgetSubscribing = new GadgetSubscribe(socket);
     jQuery(document).ready(function($) {
-        lastPoint(initMap);
+        //lastPoint(initMap);
         //
         $('#find_by_date').trigger('click');
-        initDatePickers();
-        initGetPointsButton();
+        //initDatePickers();
+        //initGetPointsButton();
     });
     //
     function initDatePickers() {
@@ -87,10 +87,14 @@
     //
     function initMap(lastPoint) {
         console.log(lastPoint.lat,', ', lastPoint.lng);
-        map = new google.maps.Map(document.getElementById('map'), {
-            center: {lat: lastPoint.lat, lng: lastPoint.lng},
-            zoom: 14
-        });
+        if(!map) {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: lastPoint.lat, lng: lastPoint.lng},
+                zoom: 14
+            });
+        } else {
+            map.setCenter(new google.maps.LatLng({lat: lastPoint.lat, lng: lastPoint.lng}));
+        }
         poly = new google.maps.Polyline({
             geodesic: true,
             strokeColor: '#00FF00',
@@ -128,52 +132,6 @@
         });
     }
     //
-    function buildPolyline(points) {
-        var lineSymbol = {
-            path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
-        };
-        poly.setMap(null);
-        poly = new google.maps.Polyline({
-            geodesic: true,
-            strokeColor: '#FF0000',
-            strokeOpacity: 1.0,
-            strokeWeight: 3,
-            icons: [{
-                icon: lineSymbol,
-                offset: '100%'
-            }]
-        });
-        poly.setMap(map);
-        var path = poly.getPath();
-        if(points){
-            points.forEach(function (x) {
-                path.push({
-                    lat:function(){return x.lat},
-                    lng:function(){return x.lng}
-                });
-            })
-        }
-        //
-        var latMax = _highestPoint(points);
-        var latMin = _lowestPoint(points);
-        var lngMin  =_leftPoint(points);
-        var lngMax  =_rightPoint(points);
-        //
-        var centerLat = (latMax + latMin)*0.5;
-        var centerLng = (lngMin + lngMax)*0.5;
-        var center = new google.maps.LatLng(centerLat, centerLng);
-        map.setCenter(center);
-        map.fitBounds(new google.maps.LatLngBounds(
-                new google.maps.LatLng(latMin, lngMin),
-                new google.maps.LatLng(latMax, lngMax)
-        ));
-        //animateCircle(poly);
-    }
-    //
-    function erasePath(){
-        poly.setMap(null);
-    }
-
     function initGetPointsButton() {
         $('#submit_get_points').click(function () {
             var firstDate = $('#first_date').datetimepicker('getValue');
@@ -182,16 +140,18 @@
             getAndBuildByDate(firstDate, secondDate);
         });
     }
-
+    //
     $(document).ajaxStart(function () {
         $('#ajax_overlay').show();
     }).ajaxStop(function () {
         $('#ajax_overlay').hide();
+    }).ajaxSuccess(function(event, xhr, settings){
+        console.log(settings.url);
     });
-
+    //
     $('#logout_link').click(function () {
         $('#logout_form').submit();
-    })
+    });
 
     /**
      *
@@ -211,8 +171,10 @@
                         '<input type="datetime" id="second_date">' +
                     '</div>' +
                     '<a class="tracker_button" id="submit_get_points">Get points</a>');
+            _clearMap();
             initDatePickers();
             initGetPointsButton();
+            lastPoint(initMap);
         }
     });
     //
@@ -223,15 +185,46 @@
                 type: "GET",
                 url : 'api/gadgets',
                 timeout : 100000,
-                success: function(data) {
+                success: function(data, status, request) {
+                    _clearMap();
+                    if(request.responseText.charCodeAt(2) == 60) {
+                        window.location = '/login';
+                    }
                     console.log('My gadgets = ', data);
                     if(data.length != 0) {
                         $('.sidebar').empty().append(fillGadgetsTable(data));
+                        _addListenersForCheckboxes();
                     }
+                },
+                error: function (data, status, request) {
+                    console.log('Error = ',request);
                 }
             });
         }
     });
+    //
+    function _addListenersForCheckboxes() {
+        $('#gadgets_div input').click(function () {
+            var isSubscribes = $(this).prop('checked');
+            var gadgetId = $(this).attr('data_id');
+            console.log('isSubscribes = ', isSubscribes, ', gadgetId = ', gadgetId);
+            var self = this;
+            $('#gadgets_div input').each(function (index, el) {
+                if(self != el && $(this).prop('checked')) {
+                    $(this).prop('checked', false);
+                }
+            });
+            if(isSubscribes) {
+                console.log('Subscribe on ', gadgetId);
+                gadgetSubscribing.unSubscribe().subscribe(gadgetId);
+                //TODO: Show only one gadget on map
+            } else {
+                console.log('Un subscribe');
+                gadgetSubscribing.unSubscribe();
+                //TODO: Show all gadgets
+            }
+        });
+    }
     //
     function fillGadgetsTable(data) {
         var currentDate = new Date();
@@ -258,26 +251,6 @@
                         '<td>' + title + '</td>' +
                         '<td>' + time + '</td>' +
                     '</tr>'
-        });
-        $('#gadgets_div input').click(function () {
-            var isSubscribes = $(this).prop('checked');
-            var gadgetId = $(this).attr('data_id');
-            console.log('isSubscribes = ', isSubscribes, ', gadgetId = ', gadgetId);
-            var self = this;
-            $('#gadgets_div input').each(function (index, el) {
-                if(self != el && $(this).prop('checked')) {
-                    $(this).prop('checked', false);
-                }
-            });
-            if(isSubscribes) {
-                console.log('Subscribe on ', gadgetId);
-                gadgetSubscribing.unSubscribe().subscribe(gadgetId);
-                //TODO: Show only one gadget on map
-            } else {
-                console.log('Un subscribe');
-                gadgetSubscribing.unSubscribe();
-                //TODO: Show all gadgets
-            }
         });
         html += '</table>' +
                         '</div>';
@@ -318,7 +291,9 @@
     $('#chart_overlay').click(function () {
         $(this).hide();
         $('#chart_wrapper_id').empty();
-    })
+    });
+
+    
 
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0ZoCNEDPN29SW8f2D8jCmQBAx0nBgB-c&"></script>
