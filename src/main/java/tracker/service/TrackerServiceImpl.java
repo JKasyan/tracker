@@ -7,6 +7,7 @@ import tracker.dao.PointsDao;
 import tracker.dao.UserDao;
 import tracker.dao.cache.RedisDao;
 import tracker.model.Gadget;
+import tracker.model.GadgetAggregation;
 import tracker.model.Point;
 import tracker.model.User;
 
@@ -51,8 +52,8 @@ public class TrackerServiceImpl implements TrackerService {
     }
 
     @Override
-    public List<Gadget> getGadgets(String email) {
-        User user = userDao.find(email);
+    public List<GadgetAggregation> getGadgets(String email) {
+        /*User user = userDao.find(email);
         List<Gadget> gadgets = gadgetDao.gadgets(user.getId());
         List<String> lastActivityKeys = new ArrayList<>();
         gadgets.forEach(x -> lastActivityKeys.add(x.getId() + ":lastActivity"));
@@ -63,7 +64,8 @@ public class TrackerServiceImpl implements TrackerService {
                 gadgets.get(i).setLastActivity(lastActivity);
             }
             return gadgets;
-        }
-        return null;
+        }*/
+        User user = userDao.find(email);
+        return gadgetDao.getLastActivityOfGadgets(user.getGadgetIds());
     }
 }

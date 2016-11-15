@@ -64,11 +64,7 @@
     var polylineHolder = [];
     var gadgetSubscribing = new GadgetSubscribe(socket);
     jQuery(document).ready(function($) {
-        //lastPoint(initMap);
-        //
         $('#find_by_date').trigger('click');
-        //initDatePickers();
-        //initGetPointsButton();
     });
     //
     function initDatePickers() {
@@ -242,11 +238,11 @@
                 time = timestampToDateFormat(gadget.lastActivity);
                 isActive = currentDate.getTime() - gadget.lastActivity * 1000 > 5 * 60 * 1000;
             }
-            var title = gadget.title;
+            var title = gadget.gadgets[0].title;
             var imageActivity = isActive ? "lamp_inactive.png" : "lamp_active.png";
             console.log('title = ', title, ', imageActivity = ', imageActivity, ', time = ', time)
             html += '<tr>' +
-                        '<td><input data_id="' + gadget.number + '" type="checkbox" ></td>' +
+                        '<td><input data_id="' + gadget.id + '" type="checkbox" ></td>' +
                         '<td><img src="resources/img/' + imageActivity + '" alt=""></td>' +
                         '<td>' + title + '</td>' +
                         '<td>' + time + '</td>' +

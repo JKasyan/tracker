@@ -12,6 +12,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 import tracker.model.Gadget;
 import tracker.model.GadgetAggregation;
+import tracker.model.Point;
 
 import java.util.List;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
@@ -35,13 +36,21 @@ public class GadgetDaoImpl implements GadgetDao {
     }
 
     @Override
-    public List<GadgetAggregation> getLastActivityOfGadgets(List<String> userIds) {
+    public List<GadgetAggregation> getLastActivityOfGadgets(List<String> gadgetIds) {
         Aggregation aggregation = newAggregation(
-                match(Criteria.where("gadgetNumber").in(userIds)),
-                group("gadgetNumber").max("timestamp").as("lastActivity"),
-                sort(Sort.Direction.DESC, "lastActivity")
+                project("lat", "lng", "timestamp", "gadgetNumber"),
+                sort(Sort.Direction.DESC, "timestamp"),
+                match(Criteria.where("gadgetNumber").in(gadgetIds)),
+                group("gadgetNumber").max("timestamp")
+                        .as("lastActivity")
+                        .first("lat")
+                        .as("lat")
+                        .first("lng")
+                        .as("lng"),
+                lookup("Gadget", "id", "id", "gadgets")
         );
-        AggregationResults<GadgetAggregation> aggregate = operations.aggregate(aggregation, Gadget.class, GadgetAggregation.class);
+        AggregationResults<GadgetAggregation> aggregate =
+                operations.aggregate(aggregation, Point.class, GadgetAggregation.class);
         List<GadgetAggregation> mappedResults = aggregate.getMappedResults();
         LOGGER.debug("Result aggregation: " + mappedResults);
         return mappedResults;

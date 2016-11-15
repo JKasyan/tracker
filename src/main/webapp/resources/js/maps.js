@@ -73,7 +73,7 @@ function buildMultiplePolyline(points) {
 
 function addPolylineWithMarkersAndInfoWindows(points) {
     //
-    validatesSpeed(points);
+    //validatesSpeed(points);
     //
     var polyline = new google.maps.Polyline({
         path: points,
@@ -118,26 +118,26 @@ function addPolylineWithMarkersAndInfoWindows(points) {
     //
     polyline.setMap(map);
     //
-    google.maps.event.addListener(polyline, 'mouseover', function (event) {
-        this.setOptions({
-            strokeOpacity: 1
-        });
-    });
+    // google.maps.event.addListener(polyline, 'mouseover', function (event) {
+    //     this.setOptions({
+    //         strokeOpacity: 1
+    //     });
+    // });
+    //
+    // google.maps.event.addListener(polyline, 'mouseout', function (event) {
+    //     this.setOptions({
+    //         strokeOpacity: 0.5
+    //     });
+    // });
 
-    google.maps.event.addListener(polyline, 'mouseout', function (event) {
-        this.setOptions({
-            strokeOpacity: 0.5
-        });
-    });
-
-    var chartData = points.map(function (point) {
-        if(!point.speed) {
-            console.log('speed null')
-        }
-        return {timestamp: point.timestamp * 1000, speed: point.speed};
-    });
-
-    console.log('chart data = ', chartData);
+    // var chartData = points.map(function (point) {
+    //     if(!point.speed) {
+    //         console.log('speed null')
+    //     }
+    //     return {timestamp: point.timestamp * 1000, speed: point.speed};
+    // });
+    //
+    // console.log('chart data = ', chartData);
 
     /*google.maps.event.addListener(polyline, 'click', function (event) {
         var chart = new Morris.Line({

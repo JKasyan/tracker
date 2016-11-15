@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import tracker.model.Gadget;
+import tracker.model.GadgetAggregation;
 import tracker.service.TrackerService;
 
 import java.util.List;
@@ -25,10 +26,10 @@ public class GadgetController {
     private static final Logger LOGGER = LoggerFactory.getLogger(GadgetController.class);
 
     @RequestMapping(value = "/gadgets", method = RequestMethod.GET)
-    public List<Gadget> getMyGadgets() {
+    public List<GadgetAggregation> getMyGadgets() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
-        List<Gadget> gadgets = trackerService.getGadgets(email);
+        List<GadgetAggregation> gadgets = trackerService.getGadgets(email);
         LOGGER.debug("Gadgets = " + gadgets);
         return gadgets;
     }
