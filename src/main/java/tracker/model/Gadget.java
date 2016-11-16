@@ -13,7 +13,6 @@ public class Gadget {
     private String id;
     private String userId;
     private String title;
-    private long lastActivity;
     private String number;
 
     public String getNumber() {
@@ -48,21 +47,12 @@ public class Gadget {
         this.title = title;
     }
 
-    public long getLastActivity() {
-        return lastActivity;
-    }
-
-    public void setLastActivity(long lastActivity) {
-        this.lastActivity = lastActivity;
-    }
-
     @Override
     public String toString() {
         return "Gadget{" +
                 "id='" + id + '\'' +
                 ", userId='" + userId + '\'' +
                 ", title='" + title + '\'' +
-                ", lastActivity=" + lastActivity +
                 ", number='" + number + '\'' +
                 '}';
     }

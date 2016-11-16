@@ -71,7 +71,8 @@ public class MongoTest {
                         .as("lat")
                         .first("lng")
                         .as("lng"),
-                lookup("Gadget", "_id", "number", "gadgets")
+                lookup("Gadget", "_id", "number", "gadget"),
+                unwind("gadget")
         );
         AggregationResults<GadgetAggregation> aggregate =
                 operations.aggregate(aggregation, Point.class, GadgetAggregation.class);

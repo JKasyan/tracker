@@ -239,7 +239,7 @@
                 time = timestampToDateFormat(gadget.lastActivity);
                 isActive = currentDate.getTime() - gadget.lastActivity * 1000 > 5 * 60 * 1000;
             }
-            var title = gadget.gadgets[0].title;
+            var title = gadget.gadget.title;
             var imageActivity = isActive ? "lamp_inactive.png" : "lamp_active.png";
             console.log('title = ', title, ', imageActivity = ', imageActivity, ', time = ', time)
             html += '<tr>' +
@@ -262,7 +262,7 @@
                 map: map
             });
             var info = new google.maps.InfoWindow({
-                content: '<h3>' + gadget.gadgets[0].title + '</h3>',
+                content: '<h3>' + gadget.gadget.title + '</h3>',
                 maxWidth: 100
             });
             marker.addListener('click', function () {

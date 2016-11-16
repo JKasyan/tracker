@@ -3,7 +3,7 @@
  */
 
 //https://obscure-thicket-55734.herokuapp.com
-var socket = io.connect('https://obscure-thicket-55734.herokuapp.com');
+var socket = io.connect('localhost:9000');
 
 socket.on('connect', function () {
     console.log('connect');

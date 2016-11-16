@@ -1,7 +1,5 @@
 package tracker.model;
 
-import java.util.List;
-
 /**
  * Created by 1 on 10/25/2016.
  */
@@ -10,14 +8,14 @@ public class GadgetAggregation {
     private long lastActivity;
     private String id;
     private double lat, lng;
-    private List<Gadget> gadgets;
+    private Gadget gadget;
 
-    public List<Gadget> getGadgets() {
-        return gadgets;
+    public Gadget getGadget() {
+        return gadget;
     }
 
-    public void setGadgets(List<Gadget> gadgets) {
-        this.gadgets = gadgets;
+    public void setGadget(Gadget gadget) {
+        this.gadget = gadget;
     }
 
     public double getLat() {
@@ -59,7 +57,7 @@ public class GadgetAggregation {
                 ", id='" + id + '\'' +
                 ", lat=" + lat +
                 ", lng=" + lng +
-                ", gadgets=" + gadgets +
+                ", gadget=" + gadget +
                 '}';
     }
 }
