@@ -55,6 +55,11 @@ function buildMultiplePolyline(points) {
         console.log('Tail');
         addPolylineWithMarkersAndInfoWindows(points.slice(points.length - polylineSize, points.length - 1));
     }
+    calculateAndSetBoundsMap(points);
+}
+
+
+function calculateAndSetBoundsMap(points) {
     var latMax = _highestPoint(points);
     var latMin = _lowestPoint(points);
     var lngMin  =_leftPoint(points);

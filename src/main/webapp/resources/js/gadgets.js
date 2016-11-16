@@ -13,6 +13,7 @@ GadgetSubscribe.prototype.subscribe = function (gadgetId) {
 }
 
 GadgetSubscribe.prototype.unSubscribe = function () {
+    console.log('un subscribe on vehicle = ', this.gadgetId);
     if(this.gadgetId) {
         this.socket.emit('unSubscribeOnVehicle', this.gadgetId);
     }

@@ -47,7 +47,7 @@ public class GadgetDaoImpl implements GadgetDao {
                         .as("lat")
                         .first("lng")
                         .as("lng"),
-                lookup("Gadget", "id", "id", "gadgets")
+                lookup("Gadget", "_id", "number", "gadgets")
         );
         AggregationResults<GadgetAggregation> aggregate =
                 operations.aggregate(aggregation, Point.class, GadgetAggregation.class);

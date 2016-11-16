@@ -59,7 +59,8 @@ public class MongoTest {
     public void findLast() {
         //db.Point.aggregate([{$match:{$in:["gadgetNumber"]}}, {$group:{_id:"$id", lastActivity:"$timestamp"}}])
         List<String> gadgetIds = new ArrayList<>();
-        gadgetIds.add("580e2049dcba0f042d5dedea");
+        gadgetIds.add("8suN8drTx6rSksqN5lDL");
+        //gadgetIds.add("582c3724dcba0f510dd56504");
         Aggregation aggregation = newAggregation(
                 project("lat", "lng", "timestamp", "gadgetNumber"),
                 sort(Sort.Direction.DESC, "timestamp"),
@@ -70,12 +71,12 @@ public class MongoTest {
                         .as("lat")
                         .first("lng")
                         .as("lng"),
-                lookup("Gadget", "id", "id", "gadgets")
+                lookup("Gadget", "_id", "number", "gadgets")
         );
         AggregationResults<GadgetAggregation> aggregate =
                 operations.aggregate(aggregation, Point.class, GadgetAggregation.class);
         List<GadgetAggregation> mappedResults = aggregate.getMappedResults();
-        System.out.println(mappedResults.get(0).getGadgets().get(0));
+        System.out.println(mappedResults);
     }
 
     @Test

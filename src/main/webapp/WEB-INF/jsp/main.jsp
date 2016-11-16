@@ -190,6 +190,7 @@
                     if(data.length != 0) {
                         $('.sidebar').empty().append(fillGadgetsTable(data));
                         _addListenersForCheckboxes();
+                        addGadgetsOnMap(data);
                     }
                 },
                 error: function (data, status, request) {
@@ -251,6 +252,34 @@
         html += '</table>' +
                         '</div>';
         return html;
+    }
+    //
+    function addGadgetsOnMap(data) {
+        data.forEach(function (gadget) {
+            var marker = new google.maps.Marker({
+                position:gadget,
+                animation:google.maps.Animation.DROP,
+                map: map
+            });
+            var info = new google.maps.InfoWindow({
+                content: '<h3>' + gadget.gadgets[0].title + '</h3>',
+                maxWidth: 100
+            });
+            marker.addListener('click', function () {
+                info.open(map, marker);
+            });
+            //
+            markers.push(marker);
+            localWindows.push(info);
+            //
+            map.setCenter(gadget);
+        });
+        if(data.length == 1) {
+            map.setZoom(18);
+        } else {
+            calculateAndSetBoundsMap(data);
+            console.log('More then 1 gadget');
+        }
     }
     //
     function timestampToDateFormat(seconds) {
