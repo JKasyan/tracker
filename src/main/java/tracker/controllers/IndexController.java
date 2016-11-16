@@ -25,4 +25,9 @@ public class IndexController {
     public String login() {
         return "login";
     }
+
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String indexToMainPage() {
+        return "main";
+    }
 }
