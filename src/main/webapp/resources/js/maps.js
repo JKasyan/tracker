@@ -241,7 +241,7 @@ function _rightPoint(points) {
 
 function infoWindow(timestamp, title, points) {
     var d = distance(points) | 0;
-    var middleSpeed = Math.round(d / (points[points.length - 1].timestamp - points[0].timestamp));
+    var middleSpeed = Math.round((d / (points[points.length - 1].timestamp - points[0].timestamp)) * 10) / 10;
     return '<div class="info_window">' +
                 '<h1>' + title + '</h1>' +
                 '<div class="info_window_row">' +
@@ -257,17 +257,6 @@ function infoWindow(timestamp, title, points) {
                     '<h3>' + middleSpeed + ' m/s</h3>' +
                 '</div>' +
             '</div>'
-}
-
-
-function addLatLng(event) {
-    var path = poly.getPath();
-    path.push(event.latLng);
-    var marker = new google.maps.Marker({
-        position: event.latLng,
-        title: '#' + path.getLength(),
-        map: map
-    });
 }
 
 function randomColor() {

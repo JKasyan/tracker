@@ -156,6 +156,9 @@
     //
     $('#find_by_date').click(function () {
         console.log('find_by_date');
+        if(polylineHolder) {
+            _clearMap();
+        }
         if(this != selectedPage) {
             $('.sidebar').empty().append('' +
                     '<div class="input_div">' +
@@ -176,6 +179,9 @@
     //
     $('#gadgets').click(function () {
         console.log('gadgets');
+        if(currentPoint || markers || localWindows) {
+            _clearMap();
+        }
         if(this != selectedPage) {
             $.ajax({
                 type: "GET",
