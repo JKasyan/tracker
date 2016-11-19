@@ -316,7 +316,7 @@
                 selectedPage = this;
                 $(this).addClass('buttons_header_selected');
             }
-        })
+        });
     });
 
     $('#chart_overlay').click(function () {
@@ -324,7 +324,62 @@
         $('#chart_wrapper_id').empty();
     });
 
-    
+    /*(function (c) {
+        var circle = null;
+        var centerOfCircleListener = map.addListener('click', function(event) {
+            console.log(event.latLng.lat(), ' ', event.latLng.lng());
+            var center = {lat:event.latLng.lat(), lng:event.latLng.lng()};
+            circle = new google.maps.Circle({
+                strokeColor: '#FF0000',
+                strokeOpacity: 0.8,
+                strokeWeight: 2,
+                fillColor: '#FF0000',
+                fillOpacity: 0.35,
+                map: map,
+                center: center,
+                radius: 0
+            });
+            var changeRadiusOnCircleListener = circle.addListener('mousemove', function (event) {
+                circle.setRadius(distance2Points(center, getPoint(event)));
+            });
+            var changeRadiusListener = map.addListener('mousemove', function (event) {
+                //console.log('tangentPoint = ', tangentPoint);
+                circle.setRadius(distance2Points(center, getPoint(event)));
+            });
+            var clickMapSecondListener = map.addListener('click', function(event) {
+                console.log('Click map');
+                removeListenersAndAssignRadius();
+            });
+            //
+            var clickCircleListener = circle.addListener('click', function(event) {
+                console.log('Click circle');
+                removeListenersAndAssignRadius();
+            });
+            //
+            function getPoint(event) {
+                return {lat:event.latLng.lat(), lng:event.latLng.lng()};
+            }
+            //
+            function removeListenersAndAssignRadius() {
+                c = new google.maps.Circle({
+                    strokeColor: '#FF0000',
+                    strokeOpacity: 0.8,
+                    strokeWeight: 2,
+                    fillColor: '#FF0000',
+                    fillOpacity: 0.35,
+                    map: map,
+                    center: center,
+                    radius: distance2Points(center, {lat:event.latLng.lat(), lng:event.latLng.lng()})
+                });
+                //circle.setRadius(distance2Points(center, {lat:event.latLng.lat(), lng:event.latLng.lng()}));
+                google.maps.event.removeListener(centerOfCircleListener);
+                google.maps.event.removeListener(clickMapSecondListener);
+                google.maps.event.removeListener(clickCircleListener);
+                google.maps.event.removeListener(changeRadiusListener);
+                google.maps.event.removeListener(changeRadiusOnCircleListener);
+            }
+        });
+    })(c);*/
 
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0ZoCNEDPN29SW8f2D8jCmQBAx0nBgB-c&"></script>
