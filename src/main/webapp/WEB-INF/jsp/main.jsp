@@ -76,7 +76,7 @@
     var markers = [];
     var localWindows = [];
     var polylineHolder = [];
-    var gadgetSubscribing = new GadgetSubscribe(socket);
+    //var gadgetSubscribing = new GadgetSubscribe(socket);
     jQuery(document).ready(function($) {
         $('#find_by_date').trigger('click');
     });
