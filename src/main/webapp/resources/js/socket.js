@@ -3,7 +3,7 @@
  */
 
 //https://obscure-thicket-55734.herokuapp.com
-var socket = io.connect('https://obscure-thicket-55734.herokuapp.com');
+/*var socket = io.connect('https://obscure-thicket-55734.herokuapp.com');
 
 socket.on('connect', function () {
     console.log('connect');
@@ -24,5 +24,5 @@ socket.on('connect', function () {
         });
         map.setCenter(point);
     }
-});
+});*/
 
